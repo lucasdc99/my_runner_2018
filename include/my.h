@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-struct sfHunter {
+struct sfRunner {
     sfRenderWindow* window;
     sfTexture *texture;
     sfTexture *background;
@@ -53,8 +53,8 @@ struct sfHunter {
     sfFont *font;
     sfEvent event;
     sfIntRect rect;
-    sfVector2f positionSprite;
-    sfVector2f offset;
+    sfVector2f positionPlayer;
+    sfVector2f mvmtPlayer;
     sfVector2f positionTree;
     sfVector2f positionOver;
     sfVector2f positionRestart;
@@ -65,7 +65,7 @@ struct sfHunter {
     sfVector2f positionLives;
     sfVector2f positionScope;
     sfVector2f scaleGround;
-    sfVector2f scaleDuck;
+    sfVector2f scalePlayer;
     sfVector2u size;
     sfClock *clock;
     sfTime time;
@@ -84,29 +84,29 @@ struct sfHunter {
 void my_putchar(char);
 int my_putstr(char const *);
 int my_strcmp(char const *, char const *);
-void manage_mouse_click(struct sfHunter *);
-void analyse_events(struct sfHunter *);
-void move_rect(struct sfHunter *, int, int);
-void destroy_sf(struct sfHunter *);
-void check_loop(struct sfHunter *);
-void create_sfvector(struct sfHunter *);
-void create_sfvector_2(struct sfHunter *);
-void create_sfsprite(struct sfHunter *);
-int create_sftexture(struct sfHunter *);
-void check_position(struct sfHunter *);
-void create_sf(struct sfHunter *, sfVideoMode);
-void create_sf_2(struct sfHunter *);
-void opened_window(struct sfHunter *);
-void turn_duck(struct sfHunter *);
+void manage_mouse_click(struct sfRunner *);
+void analyse_events(struct sfRunner *);
+void move_rect(struct sfRunner *, int, int);
+void destroy_sf(struct sfRunner *);
+void check_loop(struct sfRunner *);
+void create_sfvector(struct sfRunner *);
+void create_sfvector_2(struct sfRunner *);
+void create_sfsprite(struct sfRunner *);
+int create_sftexture(struct sfRunner *);
+void check_position(struct sfRunner *);
+void create_sf(struct sfRunner *, sfVideoMode);
+void create_sf_2(struct sfRunner *);
+void opened_window(struct sfRunner *);
+void turn_duck(struct sfRunner *);
 int rand_a_b(int, int);
 void help();
-void display_over(struct sfHunter *);
-void display_menu(struct sfHunter *);
-void display_sf(struct sfHunter *);
-int check_button_pressed(struct sfHunter *);
-int menu(struct sfHunter *);
-int game_over(struct sfHunter *);
-int analyse_events_menu(struct sfHunter *sf);
-int analyse_events_over(struct sfHunter *sf);
+void display_over(struct sfRunner *);
+void display_menu(struct sfRunner *);
+void display_sf(struct sfRunner *);
+int check_button_pressed(struct sfRunner *);
+int menu(struct sfRunner *);
+int game_over(struct sfRunner *);
+int analyse_events_menu(struct sfRunner *sf);
+int analyse_events_over(struct sfRunner *sf);
 
 #endif //MY_H_
