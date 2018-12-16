@@ -58,6 +58,7 @@ struct sfRunner {
     sfIntRect rectSky;
     sfVector2f positionPlayer;
     sfVector2f positionBackground;
+    sfVector2f positionSky;
     sfVector2f mvmtPlayer;
     sfVector2f positionTree;
     sfVector2f positionOver;

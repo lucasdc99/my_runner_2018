@@ -94,8 +94,10 @@ int main()
     sf->rectGround.height = 960;
     sf->positionPlayer.x = 0;
     sf->positionPlayer.y = 400;
+    sf->positionSky.x = 0;
+    sf->positionSky.y = -50;
     sf->positionBackground.x = 0;
-    sf->positionBackground.y = 100;
+    sf->positionBackground.y = 50;
     sf->positionGround.x = 0;
     sf->positionGround.y = 130;
     sf->mvmtPlayer.x = 0.0;
@@ -122,6 +124,7 @@ int main()
     sfSprite_setPosition(sf->sprite, sf->positionPlayer);
     sfSprite_setPosition(sf->spriteBackground, sf->positionBackground);
     sfSprite_setPosition(sf->spriteGround, sf->positionGround);
+    sfSprite_setPosition(sf->spriteSky, sf->positionSky);
     sfSprite_setScale(sf->spriteSky, sf->scaleSky);
     sfSprite_setScale(sf->spriteBackground, sf->scaleBackground);
     sfSprite_setScale(sf->spriteGround, sf->scaleGround);
@@ -134,10 +137,9 @@ int main()
         if (sf->seconds > 0.08) {
             sfSprite_move(sf->sprite, sf->mvmtPlayer);
             check_position(sf);
-            move_rect_background(sf, 1, 120);
+            move_rect_background(sf, 1, 645);
             move_rect_ground(sf, 4, 720);
-            move_rect_sky(sf, 1, 4000);
-            //sfSprite_setPosition(sf->spriteBackground, sf->positionPlayer);
+            move_rect_sky(sf, 1, 1900);
             sfClock_restart(sf->clock);
         }
         sfRenderWindow_clear(sf->window, sfBlack);
