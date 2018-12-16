@@ -33,7 +33,7 @@ struct sfRunner {
     sfRenderWindow* window;
     sfTexture *texture;
     sfTexture *background;
-    sfTexture *backgroundMenu;
+    sfTexture *sky;
     sfTexture *ground;
     sfTexture *scope;
     sfTexture *bouton;
@@ -42,7 +42,7 @@ struct sfRunner {
     sfSprite *sprite;
     sfSprite *spriteScope;
     sfSprite *spriteBackground;
-    sfSprite *spriteBackgroundMenu;
+    sfSprite *spriteSky;
     sfSprite *spriteGround;
     sfSprite *spriteBouton;
     sfSprite *spriteBoutonRestart;
@@ -53,7 +53,11 @@ struct sfRunner {
     sfFont *font;
     sfEvent event;
     sfIntRect rect;
+    sfIntRect rectBackground;
+    sfIntRect rectGround;
+    sfIntRect rectSky;
     sfVector2f positionPlayer;
+    sfVector2f positionBackground;
     sfVector2f mvmtPlayer;
     sfVector2f positionTree;
     sfVector2f positionOver;
@@ -64,7 +68,9 @@ struct sfRunner {
     sfVector2f positionText;
     sfVector2f positionLives;
     sfVector2f positionScope;
+    sfVector2f scaleBackground;
     sfVector2f scaleGround;
+    sfVector2f scaleSky;
     sfVector2f scalePlayer;
     sfVector2u size;
     sfClock *clock;
