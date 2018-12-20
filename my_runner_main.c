@@ -42,8 +42,10 @@ void move_rect_sky(struct sfRunner *sf, int offset, int max_value)
 void manage_key_pressed(struct sfRunner *sf)
 {
     if (sfKeyboard_isKeyPressed(sfKeySpace)) {
-        if (sf->mvmtPlayer.y != 30)
+        if (sf->mvmtPlayer.y != 10) {
+            //sf->mvmtPlayer.x = 10;
             sf->mvmtPlayer.y = -30.0;
+        }
     }
 }
 
@@ -61,13 +63,19 @@ void check_position(struct sfRunner *sf)
     if (sf->mvmtPlayer.y != 30 && sf->mvmtPlayer.y != -30) {
         move_rect(sf, 100, 400);
     }
-    if (sf->positionPlayer.y < 200)
-        sf->mvmtPlayer.y = 30;
+    if (sf->positionPlayer.y < 200) {
+        sf->mvmtPlayer.y = 10;
+    }
     else if (sf->positionPlayer.y > 400) {
         sf->positionPlayer.y = 400;
         sf->mvmtPlayer.y = 0;
+        sf->mvmtPlayer.x = -4;
     }
+    if (sf->positionPlayer.x < 60)
+        sf->mvmtPlayer.x = 0;
     sfSprite_setPosition(sf->sprite, sf->positionPlayer);
+    sf->positionEnemy.x -= 8;
+    sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
 }
 
 int main()
@@ -92,8 +100,10 @@ int main()
     sf->rectGround.left = 0;
     sf->rectGround.width = 800;
     sf->rectGround.height = 960;
-    sf->positionPlayer.x = 0;
+    sf->positionPlayer.x = 60;
     sf->positionPlayer.y = 400;
+    sf->positionEnemy.x = 400;
+    sf->positionEnemy.y = 400;
     sf->positionSky.x = 0;
     sf->positionSky.y = -50;
     sf->positionBackground.x = 0;
@@ -112,16 +122,19 @@ int main()
     if (!sf->window)
         return 1;
     sf->texture = sfTexture_createFromFile("images/player.png", NULL);
+    sf->enemy = sfTexture_createFromFile("images/enemy1.png", NULL);
     sf->sky = sfTexture_createFromFile("images/sky.png", NULL);
     sf->background = sfTexture_createFromFile("images/background.png", NULL);
     sf->ground = sfTexture_createFromFile("images/ground.png", NULL);
     if (!sf->texture || !sf->sky || !sf->background)
         return 1;
     sf->sprite = sfSprite_create();
+    sf->spriteEnemy = sfSprite_create();
     sf->spriteSky = sfSprite_create();
     sf->spriteBackground = sfSprite_create();
     sf->spriteGround = sfSprite_create();
     sfSprite_setPosition(sf->sprite, sf->positionPlayer);
+    sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
     sfSprite_setPosition(sf->spriteBackground, sf->positionBackground);
     sfSprite_setPosition(sf->spriteGround, sf->positionGround);
     sfSprite_setPosition(sf->spriteSky, sf->positionSky);
@@ -137,13 +150,14 @@ int main()
         if (sf->seconds > 0.08) {
             sfSprite_move(sf->sprite, sf->mvmtPlayer);
             check_position(sf);
-            move_rect_background(sf, 1, 645);
-            move_rect_ground(sf, 4, 720);
-            move_rect_sky(sf, 1, 1900);
+            move_rect_background(sf, 2, 645);
+            move_rect_ground(sf, 8, 720);
+            move_rect_sky(sf, 2, 1900);
             sfClock_restart(sf->clock);
         }
         sfRenderWindow_clear(sf->window, sfBlack);
         sfSprite_setTexture(sf->sprite, sf->texture, sfTrue);
+        sfSprite_setTexture(sf->spriteEnemy, sf->enemy, sfTrue);
         sfSprite_setTexture(sf->spriteSky, sf->sky, sfTrue);
         sfSprite_setTexture(sf->spriteBackground, sf->background, sfTrue);
         sfSprite_setTexture(sf->spriteGround, sf->ground, sfTrue);
@@ -155,6 +169,7 @@ int main()
         sfRenderWindow_drawSprite(sf->window, sf->spriteBackground, NULL);
         sfRenderWindow_drawSprite(sf->window, sf->spriteGround, NULL);
         sfRenderWindow_drawSprite(sf->window, sf->sprite, NULL);
+        sfRenderWindow_drawSprite(sf->window, sf->spriteEnemy, NULL);
         sfRenderWindow_display(sf->window);
     }
     sfSprite_destroy(sf->sprite);

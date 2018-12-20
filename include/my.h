@@ -32,6 +32,7 @@
 struct sfRunner {
     sfRenderWindow* window;
     sfTexture *texture;
+    sfTexture *enemy;
     sfTexture *background;
     sfTexture *sky;
     sfTexture *ground;
@@ -40,6 +41,7 @@ struct sfRunner {
     sfTexture *boutonRestart;
     sfTexture *boutonQuit;
     sfSprite *sprite;
+    sfSprite *spriteEnemy;
     sfSprite *spriteScope;
     sfSprite *spriteBackground;
     sfSprite *spriteSky;
@@ -57,6 +59,7 @@ struct sfRunner {
     sfIntRect rectGround;
     sfIntRect rectSky;
     sfVector2f positionPlayer;
+    sfVector2f positionEnemy;
     sfVector2f positionBackground;
     sfVector2f positionSky;
     sfVector2f mvmtPlayer;
@@ -73,6 +76,7 @@ struct sfRunner {
     sfVector2f scaleGround;
     sfVector2f scaleSky;
     sfVector2f scalePlayer;
+    sfVector2f scaleEnemy;
     sfVector2u size;
     sfClock *clock;
     sfTime time;
