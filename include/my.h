@@ -13,6 +13,7 @@
 #include <SFML/Audio/SoundStatus.h>
 #include <SFML/Audio/Types.h>
 #include <SFML/Graphics.h>
+#include <SFML/Graphics/Types.h>
 #include <SFML/Config.h>
 #include <SFML/Window.h>
 #include <SFML/Window/Mouse.h>
@@ -49,6 +50,7 @@ struct sfRunner {
     sfSprite *spriteBouton;
     sfSprite *spriteBoutonRestart;
     sfText *text;
+    sfText *pause;
     sfText *lives;
     sfText *score;
     sfText *over;
@@ -70,6 +72,7 @@ struct sfRunner {
     sfVector2f positionRandom;
     sfVector2f positionBouton;
     sfVector2f positionText;
+    sfVector2f positionPause;
     sfVector2f positionLives;
     sfVector2f positionScope;
     sfVector2f scaleBackground;
@@ -90,6 +93,9 @@ struct sfRunner {
     int random;
     int scoreInt;
     int livesInt;
+    int speedMoveBackground;
+    int speedMoveGround;
+    int speedMoveSky;
     char *scoreStr;
     char *livesStr;
 };
@@ -99,7 +105,7 @@ int my_putstr(char const *);
 int my_strcmp(char const *, char const *);
 void manage_mouse_click(struct sfRunner *);
 void analyse_events(struct sfRunner *);
-void move_rect(struct sfRunner *, int, int);
+void move_rect(struct sfRunner *, int);
 void destroy_sf(struct sfRunner *);
 void check_loop(struct sfRunner *);
 void create_sfvector(struct sfRunner *);
