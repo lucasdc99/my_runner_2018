@@ -83,7 +83,9 @@ struct sfRunner {
     sfMusic *soundShot;
     sfMusic *sound;
     float seconds;
+    int seconds2;
     int loop;
+    int jumpSide;
     int angle;
     int random;
     int scoreInt;
