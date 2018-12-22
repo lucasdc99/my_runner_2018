@@ -100,9 +100,9 @@ struct sfRunner {
 };
 
 void my_putchar(char);
-void init_sfRect(struct sfRunner *);
-void init_sfPosition(struct sfRunner *);
-void init_sfOther(struct sfRunner *);
+void init_rect(struct sfRunner *);
+void init_position(struct sfRunner *);
+void init_other(struct sfRunner *);
 void create_sf(struct sfRunner *);
 void set_sf(struct sfRunner *);
 void draw_sf(struct sfRunner *);

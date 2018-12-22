@@ -33,10 +33,10 @@ int main(void)
 {
     struct sfRunner *sf = malloc(sizeof(struct sfRunner));
 
-    init_sfRect(sf);
-    init_sfOther(sf);
+    init_rect(sf);
+    init_other(sf);
     create_sf(sf);
-    init_sfPosition(sf);
+    init_position(sf);
     set_sf(sf);
     while (sfRenderWindow_isOpen(sf->window))
         main_loop(sf);

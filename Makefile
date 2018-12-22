@@ -17,7 +17,7 @@ OBJ     =       $(SRC:.c=.o)
 
 NAME    =       my_runner
 
-CFLAGS  =       -W -Wall -ansi -pedantic -g -std=c99 -I include
+CFLAGS  =       -W -Wall -Wextra -Werror -ansi -pedantic -Ofast -g -std=c99 -I include
 
 all:    $(NAME)
 

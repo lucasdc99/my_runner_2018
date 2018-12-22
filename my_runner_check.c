@@ -39,7 +39,7 @@ void check_position(struct sfRunner *sf)
 {
     sf->positionPlayer = sfSprite_getPosition(sf->spritePlayer);
     move_rect(sf, 100);
-    if (sf->positionPlayer.y < 350 && sf->jumpSide == 1) {
+    if (sf->positionPlayer.y < 375 && sf->jumpSide == 1) {
         sf->jumpSide = -1;
     } else if (sf->positionPlayer.y > 420 && sf->jumpSide == -1) {
         sf->positionPlayer.y = 420;

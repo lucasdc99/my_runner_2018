@@ -7,7 +7,7 @@
 
 #include "my.h"
 
-void init_sfRect(struct sfRunner *sf)
+void init_rect(struct sfRunner *sf)
 {
     sf->rect.top = 0;
     sf->rect.left = 0;
@@ -31,7 +31,7 @@ void init_sfRect(struct sfRunner *sf)
     sf->rectangleView.height = 600;
 }
 
-void init_sfPosition(struct sfRunner *sf)
+void init_position(struct sfRunner *sf)
 {
     sf->positionPlayer.x = 60;
     sf->positionPlayer.y = 420;
@@ -48,7 +48,7 @@ void init_sfPosition(struct sfRunner *sf)
     sf->positionGround.y = 130;
 }
 
-void init_sfOther(struct sfRunner *sf)
+void init_other(struct sfRunner *sf)
 {
     sf->mode.width = 800;
     sf->mode.height = 600;
