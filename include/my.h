@@ -32,16 +32,13 @@
 
 struct sfRunner {
     sfRenderWindow* window;
-    sfTexture *texture;
-    sfTexture *enemy;
-    sfTexture *background;
-    sfTexture *sky;
-    sfTexture *ground;
-    sfTexture *scope;
-    sfTexture *bouton;
-    sfTexture *boutonRestart;
-    sfTexture *boutonQuit;
-    sfSprite *sprite;
+    sfVideoMode mode;
+    sfTexture *texturePlayer;
+    sfTexture *textureEnemy;
+    sfTexture *textureBg;
+    sfTexture *textureSky;
+    sfTexture *textureGround;
+    sfSprite *spritePlayer;
     sfSprite *spriteEnemy;
     sfSprite *spriteScope;
     sfSprite *spriteBackground;
@@ -56,6 +53,7 @@ struct sfRunner {
     sfText *over;
     sfFont *font;
     sfEvent event;
+    sfFloatRect rectangleView;
     sfIntRect rect;
     sfIntRect rectBackground;
     sfIntRect rectGround;
@@ -83,6 +81,7 @@ struct sfRunner {
     sfVector2u size;
     sfClock *clock;
     sfTime time;
+    sfView *view;
     sfMusic *soundShot;
     sfMusic *sound;
     float seconds;
@@ -101,31 +100,20 @@ struct sfRunner {
 };
 
 void my_putchar(char);
-int my_putstr(char const *);
-int my_strcmp(char const *, char const *);
-void manage_mouse_click(struct sfRunner *);
-void analyse_events(struct sfRunner *);
-void move_rect(struct sfRunner *, int);
+void init_sfRect(struct sfRunner *);
+void init_sfPosition(struct sfRunner *);
+void init_sfOther(struct sfRunner *);
+void create_sf(struct sfRunner *);
+void set_sf(struct sfRunner *);
+void draw_sf(struct sfRunner *);
 void destroy_sf(struct sfRunner *);
-void check_loop(struct sfRunner *);
-void create_sfvector(struct sfRunner *);
-void create_sfvector_2(struct sfRunner *);
-void create_sfsprite(struct sfRunner *);
-int create_sftexture(struct sfRunner *);
+void move_rect(struct sfRunner *, int);
+void move_rect_ground(struct sfRunner *, int);
+void move_rect_background(struct sfRunner *, int);
+void move_rect_sky(struct sfRunner *, int);
+void manage_key_pressed(struct sfRunner *);
+void analyse_events(struct sfRunner *);
 void check_position(struct sfRunner *);
-void create_sf(struct sfRunner *, sfVideoMode);
-void create_sf_2(struct sfRunner *);
-void opened_window(struct sfRunner *);
-void turn_duck(struct sfRunner *);
-int rand_a_b(int, int);
-void help();
-void display_over(struct sfRunner *);
-void display_menu(struct sfRunner *);
-void display_sf(struct sfRunner *);
-int check_button_pressed(struct sfRunner *);
-int menu(struct sfRunner *);
-int game_over(struct sfRunner *);
-int analyse_events_menu(struct sfRunner *sf);
-int analyse_events_over(struct sfRunner *sf);
-
+void check_position_2(struct sfRunner *);
+void main_loop(struct sfRunner *);
 #endif //MY_H_

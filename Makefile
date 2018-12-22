@@ -7,7 +7,11 @@
 
 CC      =       gcc
 
-SRC     =	my_runner_main.c
+SRC     =	my_runner_main.c \
+			my_runner_create.c \
+			my_runner_draw.c \
+			my_runner_check.c \
+			my_runner_move.c
 
 OBJ     =       $(SRC:.c=.o)
 
@@ -19,6 +23,7 @@ all:    $(NAME)
 
 $(NAME):        $(OBJ)
 		$(CC) $(OBJ) -o $(NAME) $(CFLAGS) -lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio
+		rm -f $(OBJ)
 
 clean:
 	rm -f $(OBJ)
