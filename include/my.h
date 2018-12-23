@@ -7,6 +7,12 @@
 
 #ifndef MY_H_
 #define MY_H_
+#define DEAD 3
+#define JUMP 1
+#define FALL -1
+#define REGULAR 0
+#define PAUSE 2
+#define ON_PLATFORM 4
 
 #include <SFML/Audio.h>
 #include <SFML/Audio/Export.h>
@@ -38,12 +44,14 @@ struct sfRunner {
     sfTexture *textureBg;
     sfTexture *textureSky;
     sfTexture *textureGround;
+    sfTexture *texturePlatform;
     sfSprite *spritePlayer;
     sfSprite *spriteEnemy;
     sfSprite *spriteScope;
     sfSprite *spriteBackground;
     sfSprite *spriteSky;
     sfSprite *spriteGround;
+    sfSprite *spritePlatform;
     sfSprite *spriteBouton;
     sfSprite *spriteBoutonRestart;
     sfText *text;
@@ -54,6 +62,7 @@ struct sfRunner {
     sfFont *font;
     sfEvent event;
     sfFloatRect rectangleView;
+    sfFloatRect viewPort;
     sfIntRect rect;
     sfIntRect rectBackground;
     sfIntRect rectGround;
@@ -67,6 +76,7 @@ struct sfRunner {
     sfVector2f positionOver;
     sfVector2f positionRestart;
     sfVector2f positionGround;
+    sfVector2f positionPlatform;
     sfVector2f positionRandom;
     sfVector2f positionBouton;
     sfVector2f positionText;
@@ -78,6 +88,7 @@ struct sfRunner {
     sfVector2f scaleSky;
     sfVector2f scalePlayer;
     sfVector2f scaleEnemy;
+    sfVector2f scalePlatform;
     sfVector2u size;
     sfClock *clock;
     sfTime time;
@@ -87,7 +98,7 @@ struct sfRunner {
     float seconds;
     int seconds2;
     int loop;
-    int jumpSide;
+    int playerCondition;
     int angle;
     int random;
     int scoreInt;
@@ -95,6 +106,7 @@ struct sfRunner {
     int speedMoveBackground;
     int speedMoveGround;
     int speedMoveSky;
+    float speedEnemy;
     char *scoreStr;
     char *livesStr;
 };
@@ -114,6 +126,7 @@ void move_rect_sky(struct sfRunner *, int);
 void manage_key_pressed(struct sfRunner *);
 void analyse_events(struct sfRunner *);
 void check_position(struct sfRunner *);
+void check_position_player(struct sfRunner *);
 void check_position_2(struct sfRunner *);
 void main_loop(struct sfRunner *);
 #endif //MY_H_

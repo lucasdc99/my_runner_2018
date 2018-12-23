@@ -11,18 +11,18 @@ void main_loop(struct sfRunner *sf)
 {
     while (sfRenderWindow_pollEvent(sf->window, &sf->event))
         analyse_events(sf);
-    if (sf->jumpSide != 2) {
+    if (sf->playerCondition != PAUSE) {
         sf->time = sfClock_getElapsedTime(sf->clock);
         sf->seconds = sf->time.microseconds / 1000000.0;
         sf->seconds2 = sf->time.microseconds / 1000.0;
-        sf->loop++;
-        check_position(sf);
-        // if (sf->jumpSide != 2)
-        //     check_position_2(sf);
+        check_position_player(sf);
+        check_position_2(sf);
         sfSprite_move(sf->spritePlayer, sf->mvmtPlayer);
-        sf->positionEnemy.x -= 2.4;
+        sf->positionEnemy.x -= sf->speedEnemy;
+        sf->positionPlatform.x -= sf->speedEnemy;
         sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
-        move_rect_background(sf, 645);
+        sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
+        move_rect_background(sf, 320);
         move_rect_ground(sf, 720);
         move_rect_sky(sf, 1900);
         draw_sf(sf);
