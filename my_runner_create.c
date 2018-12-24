@@ -48,6 +48,8 @@ void init_position(struct sfRunner *sf)
     sf->positionGround.y = 130;
     sf->positionPlatform.x = 1400;
     sf->positionPlatform.y = 485;
+    sf->positionDead.x = -90;
+    sf->positionDead.y = 0;
     sf->viewPort.left = 0;
     sf->viewPort.top = 0;
     sf->viewPort.width = 1;
@@ -63,10 +65,12 @@ void init_other(struct sfRunner *sf)
     sf->mvmtPlayer.y = 0.0;
     sf->scaleSky.x = 0.6;
     sf->scaleSky.y = 0.6;
+    sf->scaleDead.x = 0.7;
+    sf->scaleDead.y = 0.83;
     sf->scaleEnemy.x = 0.27;
     sf->scaleEnemy.y = 0.27;
-    sf->scalePlatform.x = 0.6;
-    sf->scalePlatform.y = 0.6;
+    sf->scalePlatform.x = 0.8;
+    sf->scalePlatform.y = 0.8;
     sf->scaleBackground.x = 1.6;
     sf->scaleBackground.y = 1.6;
     sf->scaleGround.x = 1.2;
@@ -74,7 +78,9 @@ void init_other(struct sfRunner *sf)
     sf->speedMoveBackground = 2;
     sf->speedMoveGround = 4;
     sf->speedMoveSky = 2;
+    sf->distanceSpawn = 1;
     sf->speedEnemy = 4.9;
+    sf->groundy = 420;
     sf->playerCondition = REGULAR;
 }
 
@@ -88,16 +94,21 @@ void create_sf(struct sfRunner *sf)
     sf->textureBg = sfTexture_createFromFile("images/background.png", NULL);
     sf->textureGround = sfTexture_createFromFile("images/ground.png", NULL);
     sf->texturePlatform = sfTexture_createFromFile("images/platform.png", NULL);
+    sf->textureDead = sfTexture_createFromFile("images/dead.png", NULL);
+    sf->textureEnd = sfTexture_createFromFile("images/end.png", NULL);
     sf->spritePlayer = sfSprite_create();
     sf->spriteEnemy = sfSprite_create();
     sf->spriteSky = sfSprite_create();
     sf->spriteBackground = sfSprite_create();
     sf->spriteGround = sfSprite_create();
     sf->spritePlatform = sfSprite_create();
+    sf->spriteDead = sfSprite_create();
+    sf->spriteEnd = sfSprite_create();
     sf->view = sfView_createFromRect(sf->rectangleView);
-    sf->font = sfFont_createFromFile("arial.ttf");
+    sf->font = sfFont_createFromFile("fonts/arial.ttf");
     sf->pause = sfText_create();
     sf->clock = sfClock_create();
+    sf->clockSpawn = sfClock_create();
 }
 
 void set_sf(struct sfRunner *sf)

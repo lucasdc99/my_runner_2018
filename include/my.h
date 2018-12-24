@@ -8,11 +8,13 @@
 #ifndef MY_H_
 #define MY_H_
 #define DEAD 3
+#define END 6
 #define JUMP 1
 #define FALL -1
 #define REGULAR 0
 #define PAUSE 2
-#define ON_PLATFORM 4
+#define ON_PLATFORM_REGULAR 4
+#define ON_PLATFORM_JUMP 5
 
 #include <SFML/Audio.h>
 #include <SFML/Audio/Export.h>
@@ -33,6 +35,9 @@
 #include <SFML/Window/Event.h>
 #include <stdio.h>
 #include <stddef.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -45,6 +50,8 @@ struct sfRunner {
     sfTexture *textureSky;
     sfTexture *textureGround;
     sfTexture *texturePlatform;
+    sfTexture *textureDead;
+    sfTexture *textureEnd;
     sfSprite *spritePlayer;
     sfSprite *spriteEnemy;
     sfSprite *spriteScope;
@@ -52,6 +59,8 @@ struct sfRunner {
     sfSprite *spriteSky;
     sfSprite *spriteGround;
     sfSprite *spritePlatform;
+    sfSprite *spriteDead;
+    sfSprite *spriteEnd;
     sfSprite *spriteBouton;
     sfSprite *spriteBoutonRestart;
     sfText *text;
@@ -83,20 +92,26 @@ struct sfRunner {
     sfVector2f positionPause;
     sfVector2f positionLives;
     sfVector2f positionScope;
+    sfVector2f positionDead;
     sfVector2f scaleBackground;
     sfVector2f scaleGround;
     sfVector2f scaleSky;
     sfVector2f scalePlayer;
     sfVector2f scaleEnemy;
     sfVector2f scalePlatform;
+    sfVector2f scaleDead;
     sfVector2u size;
     sfClock *clock;
+    sfClock *clockSpawn;
     sfTime time;
+    sfTime timeSpawn;
     sfView *view;
     sfMusic *soundShot;
     sfMusic *sound;
     float seconds;
     int seconds2;
+    int secondSpawn;
+    int distanceSpawn;
     int loop;
     int playerCondition;
     int angle;
@@ -106,12 +121,19 @@ struct sfRunner {
     int speedMoveBackground;
     int speedMoveGround;
     int speedMoveSky;
+    int existingSpike;
+    int groundy;
+    int endless;
     float speedEnemy;
     char *scoreStr;
     char *livesStr;
+    char *map;
+    char *map2;
 };
 
 void my_putchar(char);
+int my_putstr(char const *);
+int my_strcmp(char const *, char const *);
 void init_rect(struct sfRunner *);
 void init_position(struct sfRunner *);
 void init_other(struct sfRunner *);
@@ -127,6 +149,9 @@ void manage_key_pressed(struct sfRunner *);
 void analyse_events(struct sfRunner *);
 void check_position(struct sfRunner *);
 void check_position_player(struct sfRunner *);
+void check_position_player_platform(struct sfRunner *);
 void check_position_2(struct sfRunner *);
 void main_loop(struct sfRunner *);
+char *get_next_line(int);
+
 #endif //MY_H_

@@ -11,13 +11,17 @@ SRC     =	my_runner_main.c \
 			my_runner_create.c \
 			my_runner_draw.c \
 			my_runner_check.c \
-			my_runner_move.c
+			my_runner_move.c \
+			src/my_putchar.c \
+			src/my_putstr.c \
+			src/my_strcmp.c \
+			src/get_next_line.c
 
 OBJ     =       $(SRC:.c=.o)
 
 NAME    =       my_runner
 
-CFLAGS  =       -W -Wall -Wextra -Werror -ansi -pedantic -Ofast -g -std=c99 -I include
+CFLAGS  =       -W -ansi -pedantic -g -std=c99 -I include
 
 all:    $(NAME)
 

@@ -14,8 +14,10 @@ void manage_key_pressed(struct sfRunner *sf)
     if (sfKeyboard_isKeyPressed(sfKeySpace)) {
         if (sf->playerCondition == REGULAR) {
             sf->playerCondition = JUMP;
+        } else if (sf->playerCondition == ON_PLATFORM_REGULAR) {
+            sf->playerCondition = ON_PLATFORM_JUMP;
         }
-    } else if (sfKeyboard_isKeyPressed(sfKeyReturn)) {
+    } else if (sfKeyboard_isKeyPressed(sfKeyReturn) && sf->playerCondition != DEAD) {
         if (sf->playerCondition == PAUSE) {
             sf->playerCondition = playerConditionActual;
         } else {
@@ -43,16 +45,20 @@ void analyse_events(struct sfRunner *sf)
 
 void check_position_player_platform(struct sfRunner *sf)
 {
-    if (sf->positionPlayer.x >= sf->positionPlatform.x - 50 &&
-    sf->positionPlayer.x <= sf->positionPlatform.x + 50) {
+    if (sf->positionPlayer.x >= sf->positionPlatform.x - 55 &&
+    sf->positionPlayer.x <= sf->positionPlatform.x + 60) {
         if (sf->positionPlayer.y >= sf->positionPlatform.y - 130 &&
         sf->positionPlayer.y <= sf->positionPlatform.y - 125) {
-            sf->mvmtPlayer.y = 0;
-            sf->playerCondition = ON_PLATFORM;
+            if (sf->playerCondition != ON_PLATFORM_JUMP) {
+                sf->mvmtPlayer.y = 0;
+                sf->playerCondition = ON_PLATFORM_REGULAR;
+            }
         }
-    } else if (sf->positionPlayer.x >= sf->positionPlatform.x + 50 &&
-    sf->positionPlayer.x <= sf->positionPlatform.x + 60) {
-        sf->playerCondition = FALL;
+    } else if (sf->positionPlayer.x >= sf->positionPlatform.x + 65 &&
+    sf->positionPlayer.x <= sf->positionPlatform.x + 80) {
+        if (sf->playerCondition != ON_PLATFORM_JUMP) {
+            sf->playerCondition = FALL;
+        }
     }
 }
 
@@ -60,7 +66,7 @@ void check_position_player(struct sfRunner *sf)
 {
     move_rect(sf, 100);
     sf->positionPlayer = sfSprite_getPosition(sf->spritePlayer);
-    if (sf->positionPlayer.y < 375 && sf->playerCondition == JUMP) {
+    if (sf->mvmtPlayer.y == -6.5) {
         sf->playerCondition = FALL;
     } else if (sf->positionPlayer.y > 420 && sf->playerCondition == FALL) {
         sf->positionPlayer.y = 420;
@@ -73,9 +79,14 @@ void check_position_player(struct sfRunner *sf)
             sf->playerCondition = DEAD;
         }
     }
-    if (sf->positionPlayer.y > 800 || sf->positionPlayer.x < 0)
-        sfRenderWindow_close(sf->window);
-    check_position_player_platform(sf);
+    if (sf->playerCondition == ON_PLATFORM_JUMP) {
+        sf->mvmtPlayer.y -= 0.5;
+    }
+    if (sf->playerCondition == JUMP) {
+        sf->mvmtPlayer.y -= 0.5;
+    } else if (sf->playerCondition == FALL) {
+        sf->mvmtPlayer.y += 0.5;
+    }
     sfSprite_setPosition(sf->spritePlayer, sf->positionPlayer);
 }
 
@@ -90,13 +101,11 @@ void check_position_2(struct sfRunner *sf)
         sf->speedEnemy = 2.45;
         sf->mvmtPlayer.y += 1;
     }
-    if (sf->playerCondition == JUMP) {
-        sf->mvmtPlayer.y -= 0.5;
-    } else if (sf->playerCondition == FALL) {
-        sf->mvmtPlayer.y += 0.5;
-    }
-    if (sf->positionEnemy.x < -100)
+    if (sf->positionEnemy.x < -100) {
+        sf->existingSpike = 0;
         sf->positionEnemy.x = 1000;
+        sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
+    }
     if (sf->positionPlatform.x < -100)
         sf->positionPlatform.x = 1400;
 }
