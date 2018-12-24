@@ -46,10 +46,12 @@ void init_position(struct sfRunner *sf)
     sf->positionBackground.y = 50;
     sf->positionGround.x = 0;
     sf->positionGround.y = 130;
-    sf->positionPlatform.x = 1400;
+    sf->positionPlatform.x = 1000;
     sf->positionPlatform.y = 485;
     sf->positionDead.x = -90;
     sf->positionDead.y = 0;
+    sf->positionPortal.x = 1000;
+    sf->positionPortal.y = 300;
     sf->viewPort.left = 0;
     sf->viewPort.top = 0;
     sf->viewPort.width = 1;
@@ -96,6 +98,7 @@ void create_sf(struct sfRunner *sf)
     sf->texturePlatform = sfTexture_createFromFile("images/platform.png", NULL);
     sf->textureDead = sfTexture_createFromFile("images/dead.png", NULL);
     sf->textureEnd = sfTexture_createFromFile("images/end.png", NULL);
+    sf->texturePortal = sfTexture_createFromFile("images/portal.png", NULL);
     sf->spritePlayer = sfSprite_create();
     sf->spriteEnemy = sfSprite_create();
     sf->spriteSky = sfSprite_create();
@@ -104,6 +107,7 @@ void create_sf(struct sfRunner *sf)
     sf->spritePlatform = sfSprite_create();
     sf->spriteDead = sfSprite_create();
     sf->spriteEnd = sfSprite_create();
+    sf->spritePortal = sfSprite_create();
     sf->view = sfView_createFromRect(sf->rectangleView);
     sf->font = sfFont_createFromFile("fonts/arial.ttf");
     sf->pause = sfText_create();
@@ -122,6 +126,7 @@ void set_sf(struct sfRunner *sf)
     sfSprite_setPosition(sf->spriteBackground, sf->positionBackground);
     sfSprite_setPosition(sf->spriteGround, sf->positionGround);
     sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
+    sfSprite_setPosition(sf->spritePortal, sf->positionPortal);
     sfText_setPosition(sf->pause, sf->positionPause);
     sfSprite_setPosition(sf->spriteSky, sf->positionSky);
     sfSprite_setScale(sf->spriteSky, sf->scaleSky);
@@ -129,6 +134,7 @@ void set_sf(struct sfRunner *sf)
     sfSprite_setScale(sf->spriteGround, sf->scaleGround);
     sfSprite_setScale(sf->spriteEnemy, sf->scaleEnemy);
     sfSprite_setScale(sf->spritePlatform, sf->scalePlatform);
+    sfSprite_setScale(sf->spritePortal, sf->scalePlatform);
     sfRenderWindow_setFramerateLimit(sf->window, 60);
     sfRenderWindow_setVerticalSyncEnabled(sf->window, sfTrue);
 }

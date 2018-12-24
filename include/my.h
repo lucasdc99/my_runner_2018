@@ -52,6 +52,7 @@ struct sfRunner {
     sfTexture *texturePlatform;
     sfTexture *textureDead;
     sfTexture *textureEnd;
+    sfTexture *texturePortal;
     sfSprite *spritePlayer;
     sfSprite *spriteEnemy;
     sfSprite *spriteScope;
@@ -61,6 +62,7 @@ struct sfRunner {
     sfSprite *spritePlatform;
     sfSprite *spriteDead;
     sfSprite *spriteEnd;
+    sfSprite *spritePortal;
     sfSprite *spriteBouton;
     sfSprite *spriteBoutonRestart;
     sfText *text;
@@ -93,6 +95,7 @@ struct sfRunner {
     sfVector2f positionLives;
     sfVector2f positionScope;
     sfVector2f positionDead;
+    sfVector2f positionPortal;
     sfVector2f scaleBackground;
     sfVector2f scaleGround;
     sfVector2f scaleSky;
@@ -122,6 +125,8 @@ struct sfRunner {
     int speedMoveGround;
     int speedMoveSky;
     int existingSpike;
+    int existingPlatform;
+    int pauseTime;
     int groundy;
     int endless;
     float speedEnemy;

@@ -12,21 +12,40 @@ void manage_spike(struct sfRunner *sf)
 {
     sf->positionEnemy.x -= sf->speedEnemy;
     sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
-    sf->map[sf->distanceSpawn] = 32;
+}
+
+void manage_platform(struct sfRunner *sf)
+{
+    sf->positionPlatform.x -= sf->speedEnemy;
+    sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
+}
+
+void manage_portal(struct sfRunner *sf)
+{
+    sf->positionPortal.x -= sf->speedEnemy;
+    sfSprite_setPosition(sf->spritePortal, sf->positionPortal);
 }
 
 void analyse_map(struct sfRunner *sf)
 {
     if (sf->secondSpawn / 1000 == sf->distanceSpawn) {
-        if ((sf->map[sf->distanceSpawn] == 0 || sf->map2[sf->distanceSpawn] == 0) && sf->endless == 1) {
+        if ((sf->map[sf->distanceSpawn] == 0 ||
+             sf->map2[sf->distanceSpawn] == 0) &&
+            sf->endless == 1) {
             sf->distanceSpawn = 1;
             sfClock_restart(sf->clockSpawn);
-        } else if ((sf->map[sf->distanceSpawn] == 0 || sf->map2[sf->distanceSpawn] == 0) && sf->endless == 0) {
+        } else if ((sf->map[sf->distanceSpawn] == 0 ||
+                    sf->map2[sf->distanceSpawn] == 0) &&
+                   sf->endless == 0 && sf->existingPlatform == 0 && sf->existingSpike == 0) {
             sf->playerCondition = END;
         }
-        printf("%d %d %d %d\n", sf->map[sf->distanceSpawn], sf->map2[sf->distanceSpawn], sf->existingSpike, sf->distanceSpawn);
-        if (sf->map[sf->distanceSpawn] == '2' || sf->map2[sf->distanceSpawn] == '2') {
-            sf->existingSpike = 1;
+        if (sf->map[sf->distanceSpawn] == '2' ||
+            sf->map2[sf->distanceSpawn] == '2') {
+            sf->existingSpike++;
+        }
+        if (sf->map[sf->distanceSpawn] == '3' ||
+            sf->map2[sf->distanceSpawn] == '3') {
+            sf->existingPlatform++;
         }
         sf->distanceSpawn++;
     }
@@ -36,26 +55,31 @@ void main_loop(struct sfRunner *sf)
 {
     while (sfRenderWindow_pollEvent(sf->window, &sf->event))
         analyse_events(sf);
-    if (sf->playerCondition != PAUSE && sf->playerCondition != END
-    && sf->positionPlayer.y < 800) {
+    if (sf->playerCondition != PAUSE && sf->positionPortal.x > -100 &&
+        sf->positionPlayer.y < 800) {
         sf->time = sfClock_getElapsedTime(sf->clock);
         sf->timeSpawn = sfClock_getElapsedTime(sf->clockSpawn);
         sf->seconds = sf->time.microseconds / 1000000.0;
         sf->seconds2 = sf->time.microseconds / 1000.0;
-        sf->secondSpawn = sf->timeSpawn.microseconds / 1000.0;
+        sf->secondSpawn = sf->timeSpawn.microseconds / 1000.0 + sf->pauseTime;
         check_position_player(sf);
         check_position_player_platform(sf);
         check_position_2(sf);
         analyse_map(sf);
         sfSprite_move(sf->spritePlayer, sf->mvmtPlayer);
-        if (sf->existingSpike == 1)
+        if (sf->existingSpike >= 1)
             manage_spike(sf);
-        sf->positionPlatform.x -= sf->speedEnemy;
-        sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
+        if (sf->existingPlatform >= 1)
+            manage_platform(sf);
+        if (sf->playerCondition == END)
+            manage_portal(sf);
         move_rect_background(sf, 320);
         move_rect_ground(sf, 720);
         move_rect_sky(sf, 1900);
         draw_sf(sf);
+    } else {
+        sf->pauseTime = sf->secondSpawn;
+        sfClock_restart(sf->clockSpawn);
     }
 }
 
@@ -121,7 +145,8 @@ int main(int ac, char **av)
     int fd;
 
     if (ac < 2) {
-        my_putstr("./my_runner: bad arguments: 0 given but 1 is required\nretry with -h\n");
+        my_putstr("./my_runner: bad arguments: 0 given but 1 is "
+                  "required\nretry with -h\n");
         return (84);
     }
     if (ac == 2 && my_strcmp(av[1], "-h") == 0) {
@@ -132,7 +157,7 @@ int main(int ac, char **av)
         sf->endless = 1;
     }
     fd = open(av[1], O_RDONLY);
-    if (fd <= 0) 
+    if (fd <= 0)
         return (84);
     map(sf, fd);
     map_2(sf, fd);

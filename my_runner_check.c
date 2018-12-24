@@ -17,7 +17,7 @@ void manage_key_pressed(struct sfRunner *sf)
         } else if (sf->playerCondition == ON_PLATFORM_REGULAR) {
             sf->playerCondition = ON_PLATFORM_JUMP;
         }
-    } else if (sfKeyboard_isKeyPressed(sfKeyReturn) && sf->playerCondition != DEAD) {
+    } else if (sfKeyboard_isKeyPressed(sfKeyReturn) && sf->playerCondition != DEAD && sf->playerCondition != END) {
         if (sf->playerCondition == PAUSE) {
             sf->playerCondition = playerConditionActual;
         } else {
@@ -27,6 +27,8 @@ void manage_key_pressed(struct sfRunner *sf)
             sfRenderWindow_display(sf->window);
         }
     }
+    if (sfKeyboard_isKeyPressed(sfKeyQ))
+        sfRenderWindow_close(sf->window);
 }
 
 void analyse_events(struct sfRunner *sf)
@@ -102,10 +104,13 @@ void check_position_2(struct sfRunner *sf)
         sf->mvmtPlayer.y += 1;
     }
     if (sf->positionEnemy.x < -100) {
-        sf->existingSpike = 0;
+        sf->existingSpike--;
         sf->positionEnemy.x = 1000;
         sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
     }
-    if (sf->positionPlatform.x < -100)
-        sf->positionPlatform.x = 1400;
+    if (sf->positionPlatform.x < -100) {
+        sf->existingPlatform--;
+        sf->positionPlatform.x = 1000;
+        sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
+    }
 }

@@ -18,6 +18,7 @@ void draw_sf(struct sfRunner *sf)
     sfSprite_setTexture(sf->spriteGround, sf->textureGround, sfTrue);
     sfSprite_setTexture(sf->spriteDead, sf->textureDead, sfTrue);
     sfSprite_setTexture(sf->spriteEnd, sf->textureEnd, sfTrue);
+    sfSprite_setTexture(sf->spritePortal, sf->texturePortal, sfTrue);
     sfSprite_setTextureRect(sf->spriteSky, sf->rectSky);
     sfSprite_setTextureRect(sf->spritePlayer, sf->rect);
     sfSprite_setTextureRect(sf->spriteBackground, sf->rectBackground);
@@ -28,9 +29,10 @@ void draw_sf(struct sfRunner *sf)
     sfRenderWindow_drawSprite(sf->window, sf->spriteEnemy, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spritePlatform, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spritePlayer, NULL);
+    sfRenderWindow_drawSprite(sf->window, sf->spritePortal, NULL);
     if (sf->playerCondition == DEAD && sf->positionPlayer.y > 800)
         sfRenderWindow_drawSprite(sf->window, sf->spriteDead, NULL);
-    if (sf->playerCondition == END)
+    if (sf->playerCondition == END && sf->positionPortal.x < 0)
         sfRenderWindow_drawSprite(sf->window, sf->spriteEnd, NULL);
     sfRenderWindow_display(sf->window);
 }
