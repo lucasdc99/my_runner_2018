@@ -7,95 +7,23 @@
 
 #include "my.h"
 
-void init_rect(struct sfRunner *sf)
-{
-    sf->rect.top = 0;
-    sf->rect.left = 0;
-    sf->rect.width = 100;
-    sf->rect.height = 200;
-    sf->rectSky.top = 0;
-    sf->rectSky.left = 0;
-    sf->rectSky.width = 1920;
-    sf->rectSky.height = 1080;
-    sf->rectBackground.top = 0;
-    sf->rectBackground.left = 0;
-    sf->rectBackground.width = 800;
-    sf->rectBackground.height = 240;
-    sf->rectGround.top = 490;
-    sf->rectGround.left = 0;
-    sf->rectGround.width = 800;
-    sf->rectGround.height = 960;
-    sf->rectangleView.left = 0;
-    sf->rectangleView.top = 0;
-    sf->rectangleView.width = 800;
-    sf->rectangleView.height = 600;
-}
-
-void init_position(struct sfRunner *sf)
-{
-    sf->positionPlayer.x = 100;
-    sf->positionPlayer.y = 420;
-    sf->positionEnemy.x = 1000;
-    sf->positionEnemy.y = 485;
-    sf->positionSky.x = 0;
-    sf->positionSky.y = -50;
-    sf->positionPause = sfView_getSize(sf->view);
-    sf->positionPause.x /= 4;
-    sf->positionPause.y /= 2.5;
-    sf->positionBackground.x = 0;
-    sf->positionBackground.y = 50;
-    sf->positionGround.x = 0;
-    sf->positionGround.y = 130;
-    sf->positionPlatform.x = 1000;
-    sf->positionPlatform.y = 485;
-    sf->positionDead.x = -90;
-    sf->positionDead.y = 0;
-    sf->positionPortal.x = 1000;
-    sf->positionPortal.y = 300;
-    sf->viewPort.left = 0;
-    sf->viewPort.top = 0;
-    sf->viewPort.width = 1;
-    sf->viewPort.height = 1;
-}
-
-void init_other(struct sfRunner *sf)
-{
-    sf->mode.width = 800;
-    sf->mode.height = 600;
-    sf->mode.bitsPerPixel = 32;
-    sf->mvmtPlayer.x = 0.0;
-    sf->mvmtPlayer.y = 0.0;
-    sf->scaleSky.x = 0.6;
-    sf->scaleSky.y = 0.6;
-    sf->scaleDead.x = 0.7;
-    sf->scaleDead.y = 0.83;
-    sf->scaleEnemy.x = 0.27;
-    sf->scaleEnemy.y = 0.27;
-    sf->scalePlatform.x = 0.8;
-    sf->scalePlatform.y = 0.8;
-    sf->scaleBackground.x = 1.6;
-    sf->scaleBackground.y = 1.6;
-    sf->scaleGround.x = 1.2;
-    sf->scaleGround.y = 1.2;
-    sf->speedMoveBackground = 2;
-    sf->speedMoveGround = 4;
-    sf->speedMoveSky = 2;
-    sf->distanceSpawn = 1;
-    sf->speedEnemy = 4.9;
-    sf->groundy = 420;
-    sf->playerCondition = REGULAR;
-}
-
 void create_sf(struct sfRunner *sf)
 {
-    sf->window = sfRenderWindow_create(sf->mode, "Pickle Rick Runner",
-    sfResize | sfClose, NULL);
+    init_rect(sf);
+    init_other(sf);
+    create_texture_sprite(sf);
+    init_position(sf);
+    set_other(sf);
+}
+
+void create_texture_sprite(struct sfRunner *sf)
+{
     sf->texturePlayer = sfTexture_createFromFile("images/player.png", NULL);
     sf->textureEnemy = sfTexture_createFromFile("images/spikes.png", NULL);
     sf->textureSky = sfTexture_createFromFile("images/sky.png", NULL);
     sf->textureBg = sfTexture_createFromFile("images/background.png", NULL);
     sf->textureGround = sfTexture_createFromFile("images/ground.png", NULL);
-    sf->texturePlatform = sfTexture_createFromFile("images/platform.png", NULL);
+    sf->texturePlatform = sfTexture_createFromFile("images/platfrm.png", NULL);
     sf->textureDead = sfTexture_createFromFile("images/dead.png", NULL);
     sf->textureEnd = sfTexture_createFromFile("images/end.png", NULL);
     sf->texturePortal = sfTexture_createFromFile("images/portal.png", NULL);
@@ -108,6 +36,13 @@ void create_sf(struct sfRunner *sf)
     sf->spriteDead = sfSprite_create();
     sf->spriteEnd = sfSprite_create();
     sf->spritePortal = sfSprite_create();
+    create_other(sf);
+}
+
+void create_other(struct sfRunner *sf)
+{
+    sf->window = sfRenderWindow_create(sf->mode, "Pickle Rick Runner",
+    sfResize | sfClose, NULL);
     sf->view = sfView_createFromRect(sf->rectangleView);
     sf->font = sfFont_createFromFile("fonts/arial.ttf");
     sf->pause = sfText_create();
@@ -115,7 +50,24 @@ void create_sf(struct sfRunner *sf)
     sf->clockSpawn = sfClock_create();
 }
 
-void set_sf(struct sfRunner *sf)
+void set_texture(struct sfRunner *sf)
+{
+    sfSprite_setTexture(sf->spritePlayer, sf->texturePlayer, sfTrue);
+    sfSprite_setTexture(sf->spriteEnemy, sf->textureEnemy, sfTrue);
+    sfSprite_setTexture(sf->spritePlatform, sf->texturePlatform, sfTrue);
+    sfSprite_setTexture(sf->spriteSky, sf->textureSky, sfTrue);
+    sfSprite_setTexture(sf->spriteBackground, sf->textureBg, sfTrue);
+    sfSprite_setTexture(sf->spriteGround, sf->textureGround, sfTrue);
+    sfSprite_setTexture(sf->spriteDead, sf->textureDead, sfTrue);
+    sfSprite_setTexture(sf->spriteEnd, sf->textureEnd, sfTrue);
+    sfSprite_setTexture(sf->spritePortal, sf->texturePortal, sfTrue);
+    sfSprite_setTextureRect(sf->spriteSky, sf->rectSky);
+    sfSprite_setTextureRect(sf->spritePlayer, sf->rect);
+    sfSprite_setTextureRect(sf->spriteBackground, sf->rectBackground);
+    sfSprite_setTextureRect(sf->spriteGround, sf->rectGround);
+}
+
+void set_other(struct sfRunner *sf)
 {
     sfRenderWindow_setView(sf->window, sf->view);
     sfText_setString(sf->pause, "PAUSE");

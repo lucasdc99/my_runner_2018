@@ -10,19 +10,7 @@
 void draw_sf(struct sfRunner *sf)
 {
     sfRenderWindow_clear(sf->window, sfBlack);
-    sfSprite_setTexture(sf->spritePlayer, sf->texturePlayer, sfTrue);
-    sfSprite_setTexture(sf->spriteEnemy, sf->textureEnemy, sfTrue);
-    sfSprite_setTexture(sf->spritePlatform, sf->texturePlatform, sfTrue);
-    sfSprite_setTexture(sf->spriteSky, sf->textureSky, sfTrue);
-    sfSprite_setTexture(sf->spriteBackground, sf->textureBg, sfTrue);
-    sfSprite_setTexture(sf->spriteGround, sf->textureGround, sfTrue);
-    sfSprite_setTexture(sf->spriteDead, sf->textureDead, sfTrue);
-    sfSprite_setTexture(sf->spriteEnd, sf->textureEnd, sfTrue);
-    sfSprite_setTexture(sf->spritePortal, sf->texturePortal, sfTrue);
-    sfSprite_setTextureRect(sf->spriteSky, sf->rectSky);
-    sfSprite_setTextureRect(sf->spritePlayer, sf->rect);
-    sfSprite_setTextureRect(sf->spriteBackground, sf->rectBackground);
-    sfSprite_setTextureRect(sf->spriteGround, sf->rectGround);
+    set_texture(sf);
     sfRenderWindow_drawSprite(sf->window, sf->spriteSky, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spriteBackground, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spriteGround, NULL);
@@ -37,38 +25,44 @@ void draw_sf(struct sfRunner *sf)
     sfRenderWindow_display(sf->window);
 }
 
-void destroy_sf(struct sfRunner *sf)
+void destroy_texture_sprite(struct sfRunner *sf)
 {
     sfSprite_destroy(sf->spritePlayer);
-    sfSprite_destroy(sf->spriteSky);
-    sfSprite_destroy(sf->spriteBackground);
-    sfSprite_destroy(sf->spriteGround);
     sfSprite_destroy(sf->spriteEnemy);
+    sfSprite_destroy(sf->spriteBackground);
+    sfSprite_destroy(sf->spriteSky);
+    sfSprite_destroy(sf->spriteGround);
     sfSprite_destroy(sf->spritePlatform);
+    sfSprite_destroy(sf->spriteDead);
+    sfSprite_destroy(sf->spriteEnd);
+    sfSprite_destroy(sf->spritePortal);
     sfTexture_destroy(sf->texturePlayer);
-    sfTexture_destroy(sf->textureSky);
-    sfTexture_destroy(sf->textureBg);
-    sfTexture_destroy(sf->textureGround);
     sfTexture_destroy(sf->textureEnemy);
+    sfTexture_destroy(sf->textureBg);
+    sfTexture_destroy(sf->textureSky);
+    sfTexture_destroy(sf->textureGround);
     sfTexture_destroy(sf->texturePlatform);
+    sfTexture_destroy(sf->textureDead);
+    sfTexture_destroy(sf->textureEnd);
+    sfTexture_destroy(sf->texturePortal);
+    destroy_other(sf);
+}
+
+void destroy_other(struct sfRunner *sf)
+{
     sfView_destroy(sf->view);
     sfFont_destroy(sf->font);
     sfText_destroy(sf->pause);
     sfClock_destroy(sf->clock);
+    sfClock_destroy(sf->clockSpawn);
     sfRenderWindow_destroy(sf->window);
 }
 
-int check_errors(struct sfRunner *sf)
+int check_errors_2(struct sfRunner *sf)
 {
-    if (!sf->texturePlayer || !sf->textureEnemy || !sf->textureSky)
-        return (84);
-    if (!sf->textureBg || !sf->textureGround || !sf->texturePlatform)
-        return (84);
-    if (!sf->spritePlayer || !sf->spriteEnemy || !sf->spriteSky)
-        return (84);
-    if (!sf->spriteBackground || !sf->spriteGround || !sf->spritePlatform)
-        return (84);
     if (!sf->view)
+        return (84);
+    if (!sf->pause)
         return (84);
     if (!sf->font)
         return (84);
@@ -76,7 +70,26 @@ int check_errors(struct sfRunner *sf)
         return (84);
     if (!sf->clock)
         return (84);
+    if (!sf->clockSpawn)
+        return (84);
     if (!sf->window)
         return (84);
     return (0);
+}
+
+int check_errors(struct sfRunner *sf)
+{
+    if (!sf->texturePlayer || !sf->textureEnemy || !sf->textureBg)
+        return (84);
+    if (!sf->textureSky || !sf->textureGround || !sf->texturePlatform)
+        return (84);
+    if (!sf->textureDead || !sf->textureEnd || !sf->texturePortal)
+        return (84);
+    if (!sf->spritePlayer || !sf->spriteEnemy || !sf->spriteBackground)
+        return (84);
+    if (!sf->spriteSky || !sf->spriteGround || !sf->spritePlatform)
+        return (84);
+    if (!sf->spriteDead || !sf->spriteEnd || !sf->spritePortal)
+        return (84);
+    return (check_errors_2(sf));
 }

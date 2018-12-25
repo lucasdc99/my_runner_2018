@@ -8,47 +8,19 @@
 #include "get_next_line.h"
 #include "my.h"
 
-void manage_spike(struct sfRunner *sf)
+void main_loop_2(struct sfRunner *sf)
 {
-    sf->positionEnemy.x -= sf->speedEnemy;
-    sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
-}
-
-void manage_platform(struct sfRunner *sf)
-{
-    sf->positionPlatform.x -= sf->speedEnemy;
-    sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
-}
-
-void manage_portal(struct sfRunner *sf)
-{
-    sf->positionPortal.x -= sf->speedEnemy;
-    sfSprite_setPosition(sf->spritePortal, sf->positionPortal);
-}
-
-void analyse_map(struct sfRunner *sf)
-{
-    if (sf->secondSpawn / 1000 == sf->distanceSpawn) {
-        if ((sf->map[sf->distanceSpawn] == 0 ||
-             sf->map2[sf->distanceSpawn] == 0) &&
-            sf->endless == 1) {
-            sf->distanceSpawn = 1;
-            sfClock_restart(sf->clockSpawn);
-        } else if ((sf->map[sf->distanceSpawn] == 0 ||
-                    sf->map2[sf->distanceSpawn] == 0) &&
-                   sf->endless == 0 && sf->existingPlatform == 0 && sf->existingSpike == 0) {
-            sf->playerCondition = END;
-        }
-        if (sf->map[sf->distanceSpawn] == '2' ||
-            sf->map2[sf->distanceSpawn] == '2') {
-            sf->existingSpike++;
-        }
-        if (sf->map[sf->distanceSpawn] == '3' ||
-            sf->map2[sf->distanceSpawn] == '3') {
-            sf->existingPlatform++;
-        }
-        sf->distanceSpawn++;
-    }
+    sfSprite_move(sf->spritePlayer, sf->mvmtPlayer);
+    if (sf->existingSpike >= 1)
+        manage_spike(sf);
+    if (sf->existingPlatform >= 1)
+        manage_platform(sf);
+    if (sf->playerCondition == END)
+        manage_portal(sf);
+    move_rect_background(sf, 320);
+    move_rect_ground(sf, 720);
+    move_rect_sky(sf, 1900);
+    draw_sf(sf);
 }
 
 void main_loop(struct sfRunner *sf)
@@ -56,27 +28,18 @@ void main_loop(struct sfRunner *sf)
     while (sfRenderWindow_pollEvent(sf->window, &sf->event))
         analyse_events(sf);
     if (sf->playerCondition != PAUSE && sf->positionPortal.x > -100 &&
-        sf->positionPlayer.y < 800) {
+    sf->positionPlayer.y < 800) {
         sf->time = sfClock_getElapsedTime(sf->clock);
         sf->timeSpawn = sfClock_getElapsedTime(sf->clockSpawn);
         sf->seconds = sf->time.microseconds / 1000000.0;
         sf->seconds2 = sf->time.microseconds / 1000.0;
         sf->secondSpawn = sf->timeSpawn.microseconds / 1000.0 + sf->pauseTime;
+        check_player_condition(sf);
         check_position_player(sf);
         check_position_player_platform(sf);
         check_position_2(sf);
         analyse_map(sf);
-        sfSprite_move(sf->spritePlayer, sf->mvmtPlayer);
-        if (sf->existingSpike >= 1)
-            manage_spike(sf);
-        if (sf->existingPlatform >= 1)
-            manage_platform(sf);
-        if (sf->playerCondition == END)
-            manage_portal(sf);
-        move_rect_background(sf, 320);
-        move_rect_ground(sf, 720);
-        move_rect_sky(sf, 1900);
-        draw_sf(sf);
+        main_loop_2(sf);
     } else {
         sf->pauseTime = sf->secondSpawn;
         sfClock_restart(sf->clockSpawn);
@@ -101,52 +64,11 @@ void help(void)
     my_putstr("\tRETURN_KEY\tresume game.\n");
 }
 
-void map_2(struct sfRunner *sf, int fd)
+int check_args(int ac, char **av, struct sfRunner *sf)
 {
-    int ok = 0;
-
-    sf->map2 = get_next_line(fd);
-    while (ok == 0) {
-        for (int i = 0; sf->map2[i] != 0; i++) {
-            if (sf->map2[i] != 32) {
-                sf->distanceSpawn = i;
-                ok = 1;
-            }
-        }
-        if (ok == 0) {
-            free(sf->map2);
-            sf->map2 = get_next_line(fd);
-        }
-    }
-}
-
-void map(struct sfRunner *sf, int fd)
-{
-    int ok = 0;
-
-    sf->map = get_next_line(fd);
-    while (ok == 0) {
-        for (int i = 0; sf->map[i] != 0; i++) {
-            if (sf->map[i] != 32) {
-                sf->distanceSpawn = i;
-                ok = 1;
-            }
-        }
-        if (ok == 0) {
-            free(sf->map);
-            sf->map = get_next_line(fd);
-        }
-    }
-}
-
-int main(int ac, char **av)
-{
-    struct sfRunner *sf = malloc(sizeof(struct sfRunner));
-    int fd;
-
     if (ac < 2) {
-        my_putstr("./my_runner: bad arguments: 0 given but 1 is "
-                  "required\nretry with -h\n");
+        my_putstr("./my_runner: bad arguments: 0 given but 1 required\n");
+        my_putstr("retry with -h\n");
         return (84);
     }
     if (ac == 2 && my_strcmp(av[1], "-h") == 0) {
@@ -156,18 +78,26 @@ int main(int ac, char **av)
     if (ac == 3 && my_strcmp(av[2], "-i") == 0) {
         sf->endless = 1;
     }
-    fd = open(av[1], O_RDONLY);
+}
+
+int main(int ac, char **av)
+{
+    struct sfRunner *sf = malloc(sizeof(struct sfRunner));
+    int fd;
+
+    if (check_args(ac, av, sf) != 84)
+        fd = open(av[1], O_RDONLY);
+    else
+        return (84);
     if (fd <= 0)
         return (84);
     map(sf, fd);
     map_2(sf, fd);
-    init_rect(sf);
-    init_other(sf);
     create_sf(sf);
-    init_position(sf);
-    set_sf(sf);
+    if (check_errors(sf) == 84)
+        return (84);
     while (sfRenderWindow_isOpen(sf->window))
         main_loop(sf);
-    destroy_sf(sf);
+    destroy_texture_sprite(sf);
     return (0);
 }

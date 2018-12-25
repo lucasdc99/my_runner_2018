@@ -7,41 +7,11 @@
 
 #include "my.h"
 
-void manage_key_pressed(struct sfRunner *sf)
+void check_position_player_platform_2(struct sfRunner *sf)
 {
-    static int playerConditionActual = REGULAR;
-
-    if (sfKeyboard_isKeyPressed(sfKeySpace)) {
-        if (sf->playerCondition == REGULAR) {
-            sf->playerCondition = JUMP;
-        } else if (sf->playerCondition == ON_PLATFORM_REGULAR) {
-            sf->playerCondition = ON_PLATFORM_JUMP;
-        }
-    } else if (sfKeyboard_isKeyPressed(sfKeyReturn) && sf->playerCondition != DEAD && sf->playerCondition != END) {
-        if (sf->playerCondition == PAUSE) {
-            sf->playerCondition = playerConditionActual;
-        } else {
-            playerConditionActual = sf->playerCondition;
-            sf->playerCondition = PAUSE;
-            sfRenderWindow_drawText(sf->window, sf->pause, NULL);
-            sfRenderWindow_display(sf->window);
-        }
-    }
-    if (sfKeyboard_isKeyPressed(sfKeyQ))
-        sfRenderWindow_close(sf->window);
-}
-
-void analyse_events(struct sfRunner *sf)
-{
-    if (sf->event.type == sfEvtClosed)
-        sfRenderWindow_close(sf->window);
-    if (sf->event.type == sfEvtKeyPressed)
-        manage_key_pressed(sf);
-    if (sf->event.type == sfEvtResized) {
-        sf->positionScope.x = sf->event.size.width;
-        sf->positionScope.y = sf->event.size.height;
-        sfView_setSize(sf->view, sf->positionScope);
-        sfRenderWindow_setView(sf->window, sf->view);
+    if (sf->playerCondition != ON_PLATFORM_JUMP) {
+        sf->mvmtPlayer.y = 0;
+        sf->playerCondition = ON_PLATFORM_REGULAR;
     }
 }
 
@@ -51,15 +21,31 @@ void check_position_player_platform(struct sfRunner *sf)
     sf->positionPlayer.x <= sf->positionPlatform.x + 60) {
         if (sf->positionPlayer.y >= sf->positionPlatform.y - 130 &&
         sf->positionPlayer.y <= sf->positionPlatform.y - 125) {
-            if (sf->playerCondition != ON_PLATFORM_JUMP) {
-                sf->mvmtPlayer.y = 0;
-                sf->playerCondition = ON_PLATFORM_REGULAR;
-            }
+            check_position_player_platform_2(sf);
         }
     } else if (sf->positionPlayer.x >= sf->positionPlatform.x + 65 &&
     sf->positionPlayer.x <= sf->positionPlatform.x + 80) {
         if (sf->playerCondition != ON_PLATFORM_JUMP) {
             sf->playerCondition = FALL;
+        }
+    }
+}
+
+void check_player_condition(struct sfRunner *sf)
+{
+    if (sf->playerCondition == ON_PLATFORM_JUMP)
+        sf->mvmtPlayer.y -= 0.5;
+    if (sf->playerCondition == JUMP) {
+        sf->mvmtPlayer.y -= 0.5;
+    } else if (sf->playerCondition == FALL) {
+        sf->mvmtPlayer.y += 0.5;
+    }
+    if (sf->playerCondition == END) {
+        if (sf->positionPlayer.y > 420) {
+            sf->positionPlayer.y = 420;
+            sf->mvmtPlayer.y = 0;
+        } else {
+            sf->mvmtPlayer.y += 0.5;
         }
     }
 }
@@ -80,14 +66,6 @@ void check_position_player(struct sfRunner *sf)
         if (sf->positionPlayer.y >= sf->positionEnemy.y - 100) {
             sf->playerCondition = DEAD;
         }
-    }
-    if (sf->playerCondition == ON_PLATFORM_JUMP) {
-        sf->mvmtPlayer.y -= 0.5;
-    }
-    if (sf->playerCondition == JUMP) {
-        sf->mvmtPlayer.y -= 0.5;
-    } else if (sf->playerCondition == FALL) {
-        sf->mvmtPlayer.y += 0.5;
     }
     sfSprite_setPosition(sf->spritePlayer, sf->positionPlayer);
 }

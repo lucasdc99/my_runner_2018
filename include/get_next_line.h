@@ -6,5 +6,5 @@
 */
 
 #ifndef READ_SIZE
-#   define READ_SIZE (8)
+# define READ_SIZE (8)
 #endif //READ_SIZE
