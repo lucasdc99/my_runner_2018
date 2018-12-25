@@ -64,22 +64,6 @@ void help(void)
     my_putstr("\tRETURN_KEY\tresume game.\n");
 }
 
-int check_args(int ac, char **av, struct sfRunner *sf)
-{
-    if (ac < 2) {
-        my_putstr("./my_runner: bad arguments: 0 given but 1 required\n");
-        my_putstr("retry with -h\n");
-        return (84);
-    }
-    if (ac == 2 && my_strcmp(av[1], "-h") == 0) {
-        help();
-        return (1);
-    }
-    if (ac == 3 && my_strcmp(av[2], "-i") == 0) {
-        sf->endless = 1;
-    }
-}
-
 int main(int ac, char **av)
 {
     struct sfRunner *sf = malloc(sizeof(struct sfRunner));

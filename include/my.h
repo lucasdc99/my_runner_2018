@@ -160,6 +160,8 @@ void manage_spike(struct sfRunner *);
 void manage_platform(struct sfRunner *);
 void manage_portal(struct sfRunner *);
 int check_errors(struct sfRunner *);
+int check_args(int, char **, struct sfRunner *);
+void help(void);
 char *get_next_line(int);
 
 #endif //MY_H_
