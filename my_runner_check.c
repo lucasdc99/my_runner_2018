@@ -17,6 +17,11 @@ void check_position_player_platform_2(struct sfRunner *sf)
 
 void check_position_player_platform(struct sfRunner *sf)
 {
+    if (sf->positionPlayer.x >= sf->positionPlatform.x - 75 &&
+    sf->positionPlayer.x <= sf->positionPlatform.x + 60) {
+        if (sf->nearPlatform == 0)
+            sf->nearPlatform = 1;
+    }
     if (sf->positionPlayer.x >= sf->positionPlatform.x - 55 &&
     sf->positionPlayer.x <= sf->positionPlatform.x + 60) {
         if (sf->positionPlayer.y >= sf->positionPlatform.y - 130 &&
@@ -33,9 +38,20 @@ void check_position_player_platform(struct sfRunner *sf)
 
 void check_player_condition(struct sfRunner *sf)
 {
+    if (sf->nearPlatform == 2) {
+        if (sf->playerCondition == ON_PLATFORM_REGULAR) {
+            sf->playerCondition = ON_PLATFORM_JUMP;
+            sf->nearPlatform = 0;
+        }
+        if (sf->playerCondition == REGULAR) {
+            sf->playerCondition = JUMP;
+            sf->nearPlatform = 0;
+        }
+    }
     if (sf->playerCondition == ON_PLATFORM_JUMP)
         sf->mvmtPlayer.y -= 0.5;
     if (sf->playerCondition == JUMP) {
+
         sf->mvmtPlayer.y -= 0.5;
     } else if (sf->playerCondition == FALL) {
         sf->mvmtPlayer.y += 0.5;

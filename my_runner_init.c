@@ -49,8 +49,8 @@ void init_position(struct sfRunner *sf)
     sf->positionSky.x = 0;
     sf->positionSky.y = -50;
     sf->positionPause = sfView_getSize(sf->view);
-    sf->positionPause.x /= 4;
-    sf->positionPause.y /= 2.5;
+    sf->positionPause.x /= 2.8;
+    sf->positionPause.y /= 3;
     sf->positionBackground.x = 0;
     sf->positionBackground.y = 50;
     sf->positionGround.x = 0;
@@ -61,6 +61,8 @@ void init_position(struct sfRunner *sf)
     sf->positionDead.y = 0;
     sf->positionPortal.x = 1000;
     sf->positionPortal.y = 300;
+    sf->positionScore.x = 10;
+    sf->positionScore.y = 0;
 }
 
 void init_other_2(struct sfRunner *sf)
@@ -71,12 +73,19 @@ void init_other_2(struct sfRunner *sf)
     sf->scaleBackground.y = 1.6;
     sf->scaleGround.x = 1.2;
     sf->scaleGround.y = 1.2;
-    sf->speedMoveBackground = 2;
-    sf->speedMoveGround = 4;
+    sf->speedMoveBackground = 1;
+    sf->speedMoveGround = 3;
     sf->speedMoveSky = 2;
+    sf->speedPlayer = 150;
+    sf->maxValueBackground = 645;
+    sf->maxValueGround = 720;
+    sf->maxValueSky = 1920;
     sf->distanceSpawn = 1;
     sf->speedEnemy = 4.9;
     sf->groundy = 420;
+    sf->shift = 0;
+    sf->nearPlatform = 0;
+    sf->scoreInt = 0;
     sf->playerCondition = REGULAR;
 }
 
@@ -93,5 +102,7 @@ void init_other(struct sfRunner *sf)
     sf->scaleDead.y = 0.83;
     sf->scaleEnemy.x = 0.27;
     sf->scaleEnemy.y = 0.27;
+    if (sf->playerCondition != DEAD)
+        sf->scoreStr = malloc(sizeof(char) * 10);
     init_other_2(sf);
 }

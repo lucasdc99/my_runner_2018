@@ -18,10 +18,24 @@ void draw_sf(struct sfRunner *sf)
     sfRenderWindow_drawSprite(sf->window, sf->spritePlatform, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spritePlayer, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spritePortal, NULL);
-    if (sf->playerCondition == DEAD && sf->positionPlayer.y > 800)
+    sfRenderWindow_drawText(sf->window, sf->score, NULL);
+    if (sf->playerCondition == PAUSE)
+        sfRenderWindow_drawText(sf->window, sf->pause, NULL);
+    if (sf->playerCondition == DEAD && sf->positionPlayer.y > 800) {
+        sf->positionScore.x = 500;
+        sf->positionScore.y = 110;
+        sfText_setPosition(sf->score, sf->positionScore);
         sfRenderWindow_drawSprite(sf->window, sf->spriteDead, NULL);
-    if (sf->playerCondition == END && sf->positionPortal.x < 0)
+        sfRenderWindow_drawText(sf->window, sf->score, NULL);
+    }
+    if (sf->playerCondition == END && sf->positionPortal.x < 0) {
+        sf->positionScore.x = 530;
+        sf->positionScore.y = 130;
+        sfText_setOutlineColor(sf->score, sfColor_fromRGB(209, 209, 208));
+        sfText_setPosition(sf->score, sf->positionScore);
         sfRenderWindow_drawSprite(sf->window, sf->spriteEnd, NULL);
+        sfRenderWindow_drawText(sf->window, sf->score, NULL);
+    }
     sfRenderWindow_display(sf->window);
 }
 
@@ -55,7 +69,9 @@ void destroy_other(struct sfRunner *sf)
     sfText_destroy(sf->pause);
     sfClock_destroy(sf->clock);
     sfClock_destroy(sf->clockSpawn);
-    sfRenderWindow_destroy(sf->window);
+    free(sf->map);
+    free(sf->map2);
+    free(sf->scoreStr);
 }
 
 int check_errors_2(struct sfRunner *sf)

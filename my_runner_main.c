@@ -8,6 +8,21 @@
 #include "get_next_line.h"
 #include "my.h"
 
+void increase_speed(struct sfRunner *sf)
+{
+    static int already_increase = -1;
+
+    if ((sf->secondSpawn / 1000) % 20 == 0 && already_increase != sf->secondSpawn / 1000) {
+        printf("%d %d\n", sf->speedMoveGround, sf->speedMoveBackground);
+        sf->speedEnemy += 1.225;
+        sf->speedMoveGround += 2;
+        sf->speedMoveBackground++;
+        sf->speedMoveSky++;
+        sf->speedPlayer -= 5;
+        already_increase = sf->secondSpawn / 1000;
+    }
+}
+
 void main_loop_2(struct sfRunner *sf)
 {
     sfSprite_move(sf->spritePlayer, sf->mvmtPlayer);
@@ -17,9 +32,10 @@ void main_loop_2(struct sfRunner *sf)
         manage_platform(sf);
     if (sf->playerCondition == END)
         manage_portal(sf);
-    move_rect_background(sf, 320);
-    move_rect_ground(sf, 720);
-    move_rect_sky(sf, 1900);
+        increase_speed(sf);
+    move_rect_background(sf);
+    move_rect_ground(sf);
+    move_rect_sky(sf);
     draw_sf(sf);
 }
 
@@ -29,6 +45,7 @@ void main_loop(struct sfRunner *sf)
         analyse_events(sf);
     if (sf->playerCondition != PAUSE && sf->positionPortal.x > -100 &&
     sf->positionPlayer.y < 800) {
+        analyse_after_pause(sf);
         sf->time = sfClock_getElapsedTime(sf->clock);
         sf->timeSpawn = sfClock_getElapsedTime(sf->clockSpawn);
         sf->seconds = sf->time.microseconds / 1000000.0;
@@ -38,11 +55,11 @@ void main_loop(struct sfRunner *sf)
         check_position_player(sf);
         check_position_player_platform(sf);
         check_position_2(sf);
+        analyse_score(sf);
         analyse_map(sf);
         main_loop_2(sf);
     } else {
-        sf->pauseTime = sf->secondSpawn;
-        sfClock_restart(sf->clockSpawn);
+        analyse_pause(sf);
     }
 }
 
@@ -83,5 +100,6 @@ int main(int ac, char **av)
     while (sfRenderWindow_isOpen(sf->window))
         main_loop(sf);
     destroy_texture_sprite(sf);
+    sfRenderWindow_destroy(sf->window);
     return (0);
 }

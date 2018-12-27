@@ -9,29 +9,29 @@
 
 void move_rect(struct sfRunner *sf, int offset)
 {
-    sf->rect.left = offset * ((sf->seconds2 / 150) % 4);
+    sf->rect.left = offset * ((sf->seconds2 / sf->speedPlayer) % 4);
 }
 
-void move_rect_ground(struct sfRunner *sf, int max_value)
+void move_rect_ground(struct sfRunner *sf)
 {
     sf->rectGround.left += sf->speedMoveGround;
-    if (sf->rectGround.left == max_value) {
+    if (sf->rectGround.left >= sf->maxValueGround) {
         sf->rectGround.left = 0;
     }
 }
 
-void move_rect_background(struct sfRunner *sf, int max_value)
+void move_rect_background(struct sfRunner *sf)
 {
     sf->rectBackground.left += sf->speedMoveBackground;
-    if (sf->rectBackground.left == max_value) {
+    if (sf->rectBackground.left >= sf->maxValueBackground) {
         sf->rectBackground.left = 0;
     }
 }
 
-void move_rect_sky(struct sfRunner *sf, int max_value)
+void move_rect_sky(struct sfRunner *sf)
 {
     sf->rectSky.left += sf->speedMoveSky;
-    if (sf->rectSky.left == max_value) {
+    if (sf->rectSky.left >= sf->maxValueSky) {
         sf->rectSky.left = 0;
     }
 }

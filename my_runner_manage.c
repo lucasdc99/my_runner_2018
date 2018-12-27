@@ -13,12 +13,15 @@ void manage_key_pressed_2(struct sfRunner *sf)
     (sf->playerCondition == DEAD || sf->playerCondition == END)) {
         sfRenderWindow_close(sf->window);
     }
-    if (sfKeyboard_isKeyPressed(sfKeyR) &&
-    (sf->playerCondition == DEAD || sf->playerCondition == END)) {
+    if (sfKeyboard_isKeyPressed(sfKeyR) && (sf->playerCondition == DEAD &&
+    sf->positionPlayer.y > 800 || sf->playerCondition == END &&
+    sf->positionPortal.x < 0)) {
         init_rect(sf);
         init_other(sf);
         init_position(sf);
         set_other(sf);
+        for (int i = 0; i < 10; i++)
+            sf->scoreStr[i] = 0;
         sf->pauseTime = 0;
         sf->playerCondition = REGULAR;
     }
@@ -29,11 +32,13 @@ void manage_key_pressed(struct sfRunner *sf)
     static int playerConditionActual = REGULAR;
 
     if (sfKeyboard_isKeyPressed(sfKeySpace)) {
+        if (sf->nearPlatform == 1)
+            sf->nearPlatform = 2;
         if (sf->playerCondition == REGULAR) {
+            sf->nearPlatform = 1;
             sf->playerCondition = JUMP;
-        } else if (sf->playerCondition == ON_PLATFORM_REGULAR) {
+        } else if (sf->playerCondition == ON_PLATFORM_REGULAR)
             sf->playerCondition = ON_PLATFORM_JUMP;
-        }
     } else if (sfKeyboard_isKeyPressed(sfKeyReturn) &&
     sf->playerCondition != DEAD && sf->playerCondition != END) {
         if (sf->playerCondition == PAUSE) {
@@ -41,8 +46,6 @@ void manage_key_pressed(struct sfRunner *sf)
         } else {
             playerConditionActual = sf->playerCondition;
             sf->playerCondition = PAUSE;
-            sfRenderWindow_drawText(sf->window, sf->pause, NULL);
-            sfRenderWindow_display(sf->window);
         }
     }
     manage_key_pressed_2(sf);
