@@ -40,6 +40,20 @@ void init_rect(struct sfRunner *sf)
     init_rect_2(sf);
 }
 
+void init_position_2(struct sfRunner *sf)
+{
+    sf->positionGround.x = 0;
+    sf->positionGround.y = 130;
+    sf->positionPlatform.x = 1000;
+    sf->positionPlatform.y = 485;
+    sf->positionDead.x = -90;
+    sf->positionDead.y = 0;
+    sf->positionPortal.x = 1000;
+    sf->positionPortal.y = 300;
+    sf->positionScore.x = 10;
+    sf->positionScore.y = 0;
+}
+
 void init_position(struct sfRunner *sf)
 {
     sf->positionPlayer.x = 100;
@@ -53,56 +67,5 @@ void init_position(struct sfRunner *sf)
     sf->positionPause.y /= 3;
     sf->positionBackground.x = 0;
     sf->positionBackground.y = 50;
-    sf->positionGround.x = 0;
-    sf->positionGround.y = 130;
-    sf->positionPlatform.x = 1000;
-    sf->positionPlatform.y = 485;
-    sf->positionDead.x = -90;
-    sf->positionDead.y = 0;
-    sf->positionPortal.x = 1000;
-    sf->positionPortal.y = 300;
-    sf->positionScore.x = 10;
-    sf->positionScore.y = 0;
-}
-
-void init_other_2(struct sfRunner *sf)
-{
-    sf->scalePlatform.x = 0.8;
-    sf->scalePlatform.y = 0.8;
-    sf->scaleBackground.x = 1.6;
-    sf->scaleBackground.y = 1.6;
-    sf->scaleGround.x = 1.2;
-    sf->scaleGround.y = 1.2;
-    sf->speedMoveBackground = 1;
-    sf->speedMoveGround = 3;
-    sf->speedMoveSky = 2;
-    sf->speedPlayer = 150;
-    sf->maxValueBackground = 645;
-    sf->maxValueGround = 720;
-    sf->maxValueSky = 1920;
-    sf->distanceSpawn = 1;
-    sf->speedEnemy = 4.9;
-    sf->groundy = 420;
-    sf->shift = 0;
-    sf->nearPlatform = 0;
-    sf->scoreInt = 0;
-    sf->playerCondition = REGULAR;
-}
-
-void init_other(struct sfRunner *sf)
-{
-    sf->mode.width = 800;
-    sf->mode.height = 600;
-    sf->mode.bitsPerPixel = 32;
-    sf->mvmtPlayer.x = 0.0;
-    sf->mvmtPlayer.y = 0.0;
-    sf->scaleSky.x = 0.6;
-    sf->scaleSky.y = 0.6;
-    sf->scaleDead.x = 0.7;
-    sf->scaleDead.y = 0.83;
-    sf->scaleEnemy.x = 0.27;
-    sf->scaleEnemy.y = 0.27;
-    if (sf->playerCondition != DEAD)
-        sf->scoreStr = malloc(sizeof(char) * 10);
-    init_other_2(sf);
+    init_position_2(sf);
 }

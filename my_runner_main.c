@@ -12,8 +12,8 @@ void increase_speed(struct sfRunner *sf)
 {
     static int already_increase = -1;
 
-    if ((sf->secondSpawn / 1000) % 20 == 0 && already_increase != sf->secondSpawn / 1000) {
-        printf("%d %d\n", sf->speedMoveGround, sf->speedMoveBackground);
+    if ((sf->secondSpawn / 1000) % 20 == 0 &&
+    already_increase != sf->secondSpawn / 1000) {
         sf->speedEnemy += 1.225;
         sf->speedMoveGround += 2;
         sf->speedMoveBackground++;
@@ -32,7 +32,7 @@ void main_loop_2(struct sfRunner *sf)
         manage_platform(sf);
     if (sf->playerCondition == END)
         manage_portal(sf);
-        increase_speed(sf);
+    increase_speed(sf);
     move_rect_background(sf);
     move_rect_ground(sf);
     move_rect_sky(sf);

@@ -36,6 +36,23 @@ void check_position_player_platform(struct sfRunner *sf)
     }
 }
 
+void check_player_condition_2(struct sfRunner *sf)
+{
+    if (sf->playerCondition == JUMP) {
+        sf->mvmtPlayer.y -= 0.5;
+    } else if (sf->playerCondition == FALL) {
+        sf->mvmtPlayer.y += 0.5;
+    }
+    if (sf->playerCondition == END) {
+        if (sf->positionPlayer.y > 420) {
+            sf->positionPlayer.y = 420;
+            sf->mvmtPlayer.y = 0;
+        } else {
+            sf->mvmtPlayer.y += 0.5;
+        }
+    }
+}
+
 void check_player_condition(struct sfRunner *sf)
 {
     if (sf->nearPlatform == 2) {
@@ -50,20 +67,7 @@ void check_player_condition(struct sfRunner *sf)
     }
     if (sf->playerCondition == ON_PLATFORM_JUMP)
         sf->mvmtPlayer.y -= 0.5;
-    if (sf->playerCondition == JUMP) {
-
-        sf->mvmtPlayer.y -= 0.5;
-    } else if (sf->playerCondition == FALL) {
-        sf->mvmtPlayer.y += 0.5;
-    }
-    if (sf->playerCondition == END) {
-        if (sf->positionPlayer.y > 420) {
-            sf->positionPlayer.y = 420;
-            sf->mvmtPlayer.y = 0;
-        } else {
-            sf->mvmtPlayer.y += 0.5;
-        }
-    }
+    check_player_condition_2(sf);
 }
 
 void check_position_player(struct sfRunner *sf)
@@ -84,27 +88,4 @@ void check_position_player(struct sfRunner *sf)
         }
     }
     sfSprite_setPosition(sf->spritePlayer, sf->positionPlayer);
-}
-
-void check_position_2(struct sfRunner *sf)
-{
-    sf->positionEnemy = sfSprite_getPosition(sf->spriteEnemy);
-    sf->positionPlatform = sfSprite_getPosition(sf->spritePlatform);
-    if (sf->playerCondition == DEAD) {
-        sf->speedMoveBackground = 1;
-        sf->speedMoveGround = 2;
-        sf->speedMoveSky = 1;
-        sf->speedEnemy = 2.45;
-        sf->mvmtPlayer.y += 1;
-    }
-    if (sf->positionEnemy.x < -100) {
-        sf->existingSpike--;
-        sf->positionEnemy.x = 1000;
-        sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
-    }
-    if (sf->positionPlatform.x < -100) {
-        sf->existingPlatform--;
-        sf->positionPlatform.x = 1000;
-        sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
-    }
 }

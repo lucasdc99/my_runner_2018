@@ -7,20 +7,8 @@
 
 #include "my.h"
 
-void draw_sf(struct sfRunner *sf)
+void draw_end_dead(struct sfRunner *sf)
 {
-    sfRenderWindow_clear(sf->window, sfBlack);
-    set_texture(sf);
-    sfRenderWindow_drawSprite(sf->window, sf->spriteSky, NULL);
-    sfRenderWindow_drawSprite(sf->window, sf->spriteBackground, NULL);
-    sfRenderWindow_drawSprite(sf->window, sf->spriteGround, NULL);
-    sfRenderWindow_drawSprite(sf->window, sf->spriteEnemy, NULL);
-    sfRenderWindow_drawSprite(sf->window, sf->spritePlatform, NULL);
-    sfRenderWindow_drawSprite(sf->window, sf->spritePlayer, NULL);
-    sfRenderWindow_drawSprite(sf->window, sf->spritePortal, NULL);
-    sfRenderWindow_drawText(sf->window, sf->score, NULL);
-    if (sf->playerCondition == PAUSE)
-        sfRenderWindow_drawText(sf->window, sf->pause, NULL);
     if (sf->playerCondition == DEAD && sf->positionPlayer.y > 800) {
         sf->positionScore.x = 500;
         sf->positionScore.y = 110;
@@ -36,6 +24,23 @@ void draw_sf(struct sfRunner *sf)
         sfRenderWindow_drawSprite(sf->window, sf->spriteEnd, NULL);
         sfRenderWindow_drawText(sf->window, sf->score, NULL);
     }
+}
+
+void draw_sf(struct sfRunner *sf)
+{
+    sfRenderWindow_clear(sf->window, sfBlack);
+    set_texture(sf);
+    sfRenderWindow_drawSprite(sf->window, sf->spriteSky, NULL);
+    sfRenderWindow_drawSprite(sf->window, sf->spriteBackground, NULL);
+    sfRenderWindow_drawSprite(sf->window, sf->spriteGround, NULL);
+    sfRenderWindow_drawSprite(sf->window, sf->spriteEnemy, NULL);
+    sfRenderWindow_drawSprite(sf->window, sf->spritePlatform, NULL);
+    sfRenderWindow_drawSprite(sf->window, sf->spritePlayer, NULL);
+    sfRenderWindow_drawSprite(sf->window, sf->spritePortal, NULL);
+    sfRenderWindow_drawText(sf->window, sf->score, NULL);
+    if (sf->playerCondition == PAUSE)
+        sfRenderWindow_drawText(sf->window, sf->pause, NULL);
+    draw_end_dead(sf);
     sfRenderWindow_display(sf->window);
 }
 
@@ -72,40 +77,4 @@ void destroy_other(struct sfRunner *sf)
     free(sf->map);
     free(sf->map2);
     free(sf->scoreStr);
-}
-
-int check_errors_2(struct sfRunner *sf)
-{
-    if (!sf->view)
-        return (84);
-    if (!sf->pause)
-        return (84);
-    if (!sf->font)
-        return (84);
-    if (!sf->pause)
-        return (84);
-    if (!sf->clock)
-        return (84);
-    if (!sf->clockSpawn)
-        return (84);
-    if (!sf->window)
-        return (84);
-    return (0);
-}
-
-int check_errors(struct sfRunner *sf)
-{
-    if (!sf->texturePlayer || !sf->textureEnemy || !sf->textureBg)
-        return (84);
-    if (!sf->textureSky || !sf->textureGround || !sf->texturePlatform)
-        return (84);
-    if (!sf->textureDead || !sf->textureEnd || !sf->texturePortal)
-        return (84);
-    if (!sf->spritePlayer || !sf->spriteEnemy || !sf->spriteBackground)
-        return (84);
-    if (!sf->spriteSky || !sf->spriteGround || !sf->spritePlatform)
-        return (84);
-    if (!sf->spriteDead || !sf->spriteEnd || !sf->spritePortal)
-        return (84);
-    return (check_errors_2(sf));
 }

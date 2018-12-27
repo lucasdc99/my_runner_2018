@@ -36,18 +36,25 @@ void move_rect_sky(struct sfRunner *sf)
     }
 }
 
-int check_args(int ac, char **av, struct sfRunner *sf)
+void check_position_2(struct sfRunner *sf)
 {
-    if (ac < 2) {
-        my_putstr("./my_runner: bad arguments: 0 given but 1 required\n");
-        my_putstr("retry with -h\n");
-        return (84);
+    sf->positionEnemy = sfSprite_getPosition(sf->spriteEnemy);
+    sf->positionPlatform = sfSprite_getPosition(sf->spritePlatform);
+    if (sf->playerCondition == DEAD) {
+        sf->speedMoveBackground = 1;
+        sf->speedMoveGround = 2;
+        sf->speedMoveSky = 1;
+        sf->speedEnemy = 2.45;
+        sf->mvmtPlayer.y += 1;
     }
-    if (ac == 2 && my_strcmp(av[1], "-h") == 0) {
-        help();
-        return (1);
+    if (sf->positionEnemy.x < -100) {
+        sf->existingSpike--;
+        sf->positionEnemy.x = 1000;
+        sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
     }
-    if (ac == 3 && my_strcmp(av[2], "-i") == 0) {
-        sf->endless = 1;
+    if (sf->positionPlatform.x < -100) {
+        sf->existingPlatform--;
+        sf->positionPlatform.x = 1000;
+        sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
     }
 }
