@@ -55,23 +55,32 @@ void destroy_texture_sprite(struct sfRunner *sf)
     sfSprite_destroy(sf->spriteDead);
     sfSprite_destroy(sf->spriteEnd);
     sfSprite_destroy(sf->spritePortal);
+    sfSprite_destroy(sf->spriteBoutonPlay);
+    sfSprite_destroy(sf->spriteBoutonQuit);
+    sfSprite_destroy(sf->spriteBoutonChangeSize);
+    sfSprite_destroy(sf->spriteTitle);
     sfTexture_destroy(sf->texturePlayer);
     sfTexture_destroy(sf->textureEnemy);
     sfTexture_destroy(sf->textureBg);
     sfTexture_destroy(sf->textureSky);
     sfTexture_destroy(sf->textureGround);
     sfTexture_destroy(sf->texturePlatform);
-    sfTexture_destroy(sf->textureDead);
-    sfTexture_destroy(sf->textureEnd);
-    sfTexture_destroy(sf->texturePortal);
     destroy_other(sf);
 }
 
 void destroy_other(struct sfRunner *sf)
 {
+    sfTexture_destroy(sf->textureDead);
+    sfTexture_destroy(sf->textureEnd);
+    sfTexture_destroy(sf->texturePortal);
+    sfTexture_destroy(sf->textureBoutonPlay);
+    sfTexture_destroy(sf->textureBoutonQuit);
+    sfTexture_destroy(sf->textureBoutonChangeSize);
+    sfTexture_destroy(sf->textureTitle);
     sfView_destroy(sf->view);
     sfFont_destroy(sf->font);
     sfText_destroy(sf->pause);
+    sfText_destroy(sf->score);
     sfClock_destroy(sf->clock);
     sfClock_destroy(sf->clockSpawn);
     free(sf->map);

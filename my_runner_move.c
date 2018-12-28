@@ -9,7 +9,7 @@
 
 void move_rect(struct sfRunner *sf, int offset)
 {
-    sf->rect.left = offset * ((sf->seconds2 / sf->speedPlayer) % 4);
+    sf->rect.left = offset * ((sf->secondSpawn / sf->speedPlayer) % 4);
 }
 
 void move_rect_ground(struct sfRunner *sf)

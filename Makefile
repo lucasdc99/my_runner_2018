@@ -21,6 +21,7 @@ SRC     =   my_runner_main.c \
             my_runner_errors.c \
             my_runner_pause.c \
             my_runner_set.c \
+            my_runner_menu.c \
             src/my_putchar.c \
             src/my_putstr.c \
             src/my_strcmp.c \

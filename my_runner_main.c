@@ -8,20 +8,6 @@
 #include "get_next_line.h"
 #include "my.h"
 
-void increase_speed(struct sfRunner *sf)
-{
-    static int already_increase = 0;
-
-    if ((sf->secondSpawn / 1000) % 20 == 0 &&
-    already_increase != sf->secondSpawn / 1000) {
-        sf->speedMoveGround += 2;
-        sf->speedMoveBackground++;
-        sf->speedMoveSky++;
-        sf->speedPlayer -= 5;
-        already_increase = sf->secondSpawn / 1000;
-    }
-}
-
 void main_loop_2(struct sfRunner *sf)
 {
     sfSprite_move(sf->spritePlayer, sf->mvmtPlayer);
@@ -39,41 +25,6 @@ void main_loop_2(struct sfRunner *sf)
     draw_sf(sf);
 }
 
-void analyse_menu(struct sfRunner *sf)
-{
-    sf->pauseTime = sf->secondSpawn;
-    sfClock_restart(sf->clockSpawn);
-    if (sf->playerCondition == MENU && sf->changeSize == 800) {
-        modify_texture(sf);
-        set_texture(sf);
-        sf->textureBoutonPlay = sfTexture_createFromFile("images/play.png", NULL);
-        sf->textureBoutonQuit = sfTexture_createFromFile("images/quit.png", NULL);
-        sf->textureBoutonChangeSize = sfTexture_createFromFile("images/changeSize.png", NULL);
-        sf->textureTitle = sfTexture_createFromFile("images/title.png", NULL);
-        sf->spriteBoutonPlay = sfSprite_create();
-        sf->spriteBoutonQuit = sfSprite_create();
-        sf->spriteBoutonChangeSize = sfSprite_create();
-        sf->spriteTitle = sfSprite_create();
-        sfSprite_setTexture(sf->spriteBoutonPlay, sf->textureBoutonPlay, sfTrue);
-        sfSprite_setTexture(sf->spriteBoutonQuit, sf->textureBoutonQuit, sfTrue);
-        sfSprite_setTexture(sf->spriteBoutonChangeSize, sf->textureBoutonChangeSize, sfTrue);
-        sfSprite_setTexture(sf->spriteTitle, sf->textureTitle, sfTrue);
-        sfSprite_setPosition(sf->spriteBoutonPlay, sf->positionPlay);
-        sfSprite_setPosition(sf->spriteBoutonQuit, sf->positionQuit);
-        sfSprite_setPosition(sf->spriteBoutonChangeSize, sf->positionChangeSize);
-        sfSprite_setPosition(sf->spriteTitle, sf->positionTitle);
-        sfRenderWindow_clear(sf->window, sfBlack);
-        sfRenderWindow_drawSprite(sf->window, sf->spriteSky, NULL);
-        sfRenderWindow_drawSprite(sf->window, sf->spriteBackground, NULL);
-        sfRenderWindow_drawSprite(sf->window, sf->spriteGround, NULL);
-        sfRenderWindow_drawSprite(sf->window, sf->spriteBoutonPlay, NULL);
-        sfRenderWindow_drawSprite(sf->window, sf->spriteBoutonQuit, NULL);
-        sfRenderWindow_drawSprite(sf->window, sf->spriteBoutonChangeSize, NULL);
-        sfRenderWindow_drawSprite(sf->window, sf->spriteTitle, NULL);
-        sfRenderWindow_display(sf->window);
-    }
-}
-
 void main_loop(struct sfRunner *sf)
 {
     while (sfRenderWindow_pollEvent(sf->window, &sf->event))
@@ -84,7 +35,6 @@ void main_loop(struct sfRunner *sf)
         sf->time = sfClock_getElapsedTime(sf->clock);
         sf->timeSpawn = sfClock_getElapsedTime(sf->clockSpawn);
         sf->seconds = sf->time.microseconds / 1000000.0;
-        sf->seconds2 = sf->time.microseconds / 1000.0;
         sf->secondSpawn = sf->timeSpawn.microseconds / 1000.0 + sf->pauseTime;
         check_player_condition(sf);
         check_position_player(sf);

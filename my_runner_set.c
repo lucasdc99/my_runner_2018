@@ -24,7 +24,6 @@ void init_other_2(struct sfRunner *sf)
     sf->maxValueSky = 1920;
     sf->distanceSpawn = 1;
     sf->speedEnemy = 4.9;
-    sf->groundy = 420;
     sf->shift = 0;
     sf->nearPlatform = 0;
     sf->scoreInt = 0;

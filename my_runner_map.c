@@ -7,6 +7,30 @@
 
 #include "my.h"
 
+void analyse_map(struct sfRunner *sf)
+{
+    if (sf->secondSpawn / 1000 == sf->distanceSpawn) {
+        if ((sf->map[sf->distanceSpawn] == 0 ||
+        sf->map2[sf->distanceSpawn] == 0) && sf->endless == 1) {
+            sf->distanceSpawn = 1;
+            sf->shift = sf->secondSpawn;
+            sfClock_restart(sf->clockSpawn);
+        } else if ((sf->map[sf->distanceSpawn] == 0 ||
+            sf->map2[sf->distanceSpawn] == 0) &&
+            sf->endless == 0 && sf->existingPlatform == 0
+            && sf->existingSpike == 0)
+            sf->playerCondition = END;
+        if (sf->map[sf->distanceSpawn] == '2' ||
+        sf->map2[sf->distanceSpawn] == '2') {
+            sf->existingSpike++;
+        } else if (sf->map[sf->distanceSpawn] == '3' ||
+        sf->map2[sf->distanceSpawn] == '3') {
+            sf->existingPlatform++;
+        }
+        sf->distanceSpawn++;
+    }
+}
+
 int map_2_find_distance(struct sfRunner *sf, int ok)
 {
     for (int i = 0; sf->map2[i] != 0; i++) {

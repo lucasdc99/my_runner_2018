@@ -29,6 +29,22 @@ void create_texture_sprite(struct sfRunner *sf)
     sf->textureDead = sfTexture_createFromFile("images/dead.png", NULL);
     sf->textureEnd = sfTexture_createFromFile("images/end.png", NULL);
     sf->texturePortal = sfTexture_createFromFile("images/portal.png", NULL);
+    sf->textureBoutonPlay = sfTexture_createFromFile
+    ("images/play.png", NULL);
+    sf->textureBoutonQuit = sfTexture_createFromFile
+    ("images/quit.png", NULL);
+    sf->textureBoutonChangeSize = sfTexture_createFromFile
+    ("images/changeSize.png", NULL);
+    sf->textureTitle = sfTexture_createFromFile("images/title.png", NULL);
+    create_other(sf);
+}
+
+void create_other(struct sfRunner *sf)
+{
+    sf->spriteBoutonPlay = sfSprite_create();
+    sf->spriteBoutonQuit = sfSprite_create();
+    sf->spriteBoutonChangeSize = sfSprite_create();
+    sf->spriteTitle = sfSprite_create();
     sf->spritePlayer = sfSprite_create();
     sf->spriteEnemy = sfSprite_create();
     sf->spriteSky = sfSprite_create();
@@ -38,11 +54,6 @@ void create_texture_sprite(struct sfRunner *sf)
     sf->spriteDead = sfSprite_create();
     sf->spriteEnd = sfSprite_create();
     sf->spritePortal = sfSprite_create();
-    create_other(sf);
-}
-
-void create_other(struct sfRunner *sf)
-{
     sf->view = sfView_createFromRect(sf->rectangleView);
     sf->font = sfFont_createFromFile("fonts/get_schwifty.ttf");
     sf->pause = sfText_create();

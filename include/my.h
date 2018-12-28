@@ -89,16 +89,9 @@ struct sfRunner {
     sfVector2f positionBackground;
     sfVector2f positionSky;
     sfVector2f mvmtPlayer;
-    sfVector2f positionTree;
-    sfVector2f positionOver;
-    sfVector2f positionRestart;
     sfVector2f positionGround;
     sfVector2f positionPlatform;
-    sfVector2f positionRandom;
-    sfVector2f positionBouton;
-    sfVector2f positionText;
     sfVector2f positionPause;
-    sfVector2f positionLives;
     sfVector2f positionScope;
     sfVector2f positionDead;
     sfVector2f positionScore;
@@ -114,22 +107,17 @@ struct sfRunner {
     sfVector2f scaleEnemy;
     sfVector2f scalePlatform;
     sfVector2f scaleDead;
-    sfVector2u size;
     sfClock *clock;
     sfClock *clockSpawn;
     sfTime time;
     sfTime timeSpawn;
     sfView *view;
     float seconds;
-    int seconds2;
     int secondSpawn;
     int distanceSpawn;
-    int loop;
     int playerCondition;
     int angle;
-    int random;
     int scoreInt;
-    int livesInt;
     int speedMoveBackground;
     int speedMoveGround;
     int speedMoveSky;
@@ -141,7 +129,6 @@ struct sfRunner {
     int existingSpike;
     int existingPlatform;
     int pauseTime;
-    int groundy;
     int endless;
     int nearPlatform;
     int in_pause;
@@ -149,7 +136,6 @@ struct sfRunner {
     int changeSize;
     float speedEnemy;
     char *scoreStr;
-    char *livesStr;
     char *map;
     char *map2;
 };
@@ -157,6 +143,7 @@ struct sfRunner {
 void my_putchar(char);
 int my_putstr(char const *);
 int my_strcmp(char const *, char const *);
+char *get_next_line(int);
 void init_rect(struct sfRunner *);
 void init_position(struct sfRunner *);
 void init_other(struct sfRunner *);
@@ -192,6 +179,11 @@ void analyse_score(struct sfRunner *);
 void analyse_pause(struct sfRunner *);
 void analyse_after_pause(struct sfRunner *);
 void modify_texture(struct sfRunner *);
-char *get_next_line(int);
+void change_size_800(struct sfRunner *);
+void increase_speed(struct sfRunner *);
+void analyse_menu(struct sfRunner *);
+void bouton_play(struct sfRunner *);
+void bouton_quit(struct sfRunner *);
+void bouton_change_size(struct sfRunner *);
 
 #endif //MY_H_
