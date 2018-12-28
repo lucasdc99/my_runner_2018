@@ -77,6 +77,79 @@ void analyse_map(struct sfRunner *sf)
     }
 }
 
+void bouton_play(struct sfRunner *sf)
+{
+    sfVector2i position = sfMouse_getPositionRenderWindow(sf->window);
+
+    if (position.x > sf->positionPlay.x &&
+    position.x < sf->positionPlay.x + 150) {
+        if (position.y > sf->positionPlay.y &&
+        position.y < sf->positionPlay.y + 150) {
+            sf->playerCondition = REGULAR;
+            analyse_after_pause(sf);
+        }
+    }
+}
+
+void bouton_quit(struct sfRunner *sf)
+{
+    sfVector2i position = sfMouse_getPositionRenderWindow(sf->window);
+
+    if (position.x > sf->positionQuit.x &&
+    position.x < sf->positionQuit.x + 150) {
+        if (position.y > sf->positionQuit.y &&
+        position.y < sf->positionQuit.y + 150) {
+            sfRenderWindow_destroy(sf->window);
+        }
+    }
+}
+
+void bouton_change_size(struct sfRunner *sf)
+{
+    sfVector2i position = sfMouse_getPositionRenderWindow(sf->window);
+    sfVector2u size = {1920, 1080};
+
+    if (position.x > sf->positionChangeSize.x &&
+    position.x < sf->positionChangeSize.x + 350) {
+        if (position.y > sf->positionChangeSize.y &&
+        position.y < sf->positionChangeSize.y + 150) {
+            if (sf->changeSize == 800) {
+                sf->textureBoutonChangeSize = sfTexture_createFromFile("images/changeSize1080.png", NULL);
+                sfRenderWindow_destroy(sf->window);
+                sf->window = sfRenderWindow_create
+                (sf->mode, "Pickle Rick Runner", sfFullscreen | sfClose, NULL);
+                sfRenderWindow_setFramerateLimit(sf->window, 60);
+                sfRenderWindow_setVerticalSyncEnabled(sf->window, sfTrue);
+                sf->scalePlatform.x = 0.8;
+                sf->scalePlatform.y = 0.8;
+                sf->scaleBackground.x = 1.6;
+                sf->scaleBackground.y = 1.6;
+                sf->scaleGround.x = 1.2;
+                sf->scaleGround.y = 1.2;
+                sfSprite_setTexture(sf->spriteBoutonChangeSize, sf->textureBoutonChangeSize, sfTrue);
+                sfRenderWindow_clear(sf->window, sfBlack);
+                sfRenderWindow_drawSprite(sf->window, sf->spriteSky, NULL);
+                sfRenderWindow_drawSprite(sf->window, sf->spriteBackground, NULL);
+                sfRenderWindow_drawSprite(sf->window, sf->spriteGround, NULL);
+                sfRenderWindow_drawSprite(sf->window, sf->spriteBoutonPlay, NULL);
+                sfRenderWindow_drawSprite(sf->window, sf->spriteBoutonQuit, NULL);
+                sfRenderWindow_drawSprite(sf->window, sf->spriteBoutonChangeSize, NULL);
+                sfRenderWindow_drawSprite(sf->window, sf->spriteTitle, NULL);
+                sfRenderWindow_display(sf->window);
+                sf->changeSize = 1080;
+            } else {
+                sf->textureBoutonChangeSize = sfTexture_createFromFile("images/changeSize.png", NULL);
+                sfRenderWindow_destroy(sf->window);
+                sf->window = sfRenderWindow_create
+                (sf->mode, "Pickle Rick Runner", sfClose, NULL);
+                sfRenderWindow_setFramerateLimit(sf->window, 60);
+                sfRenderWindow_setVerticalSyncEnabled(sf->window, sfTrue);
+                sf->changeSize = 800;
+            }
+        }
+    }
+}
+
 void analyse_events(struct sfRunner *sf)
 {
     if (sf->event.type == sfEvtClosed)
@@ -88,5 +161,10 @@ void analyse_events(struct sfRunner *sf)
         sf->positionScope.y = sf->event.size.height;
         sfView_setSize(sf->view, sf->positionScope);
         sfRenderWindow_setView(sf->window, sf->view);
+    }
+    if (sf->event.type == sfEvtMouseButtonPressed && sf->playerCondition == MENU) {
+        bouton_play(sf);
+        bouton_quit(sf);
+        bouton_change_size(sf);
     }
 }

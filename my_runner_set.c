@@ -18,7 +18,7 @@ void init_other_2(struct sfRunner *sf)
     sf->speedMoveBackground = 1;
     sf->speedMoveGround = 3;
     sf->speedMoveSky = 2;
-    sf->speedPlayer = 150;
+    sf->speedPlayer = 120;
     sf->maxValueBackground = 645;
     sf->maxValueGround = 720;
     sf->maxValueSky = 1920;
@@ -28,7 +28,7 @@ void init_other_2(struct sfRunner *sf)
     sf->shift = 0;
     sf->nearPlatform = 0;
     sf->scoreInt = 0;
-    sf->playerCondition = REGULAR;
+    sf->playerCondition = MENU;
 }
 
 void init_other(struct sfRunner *sf)

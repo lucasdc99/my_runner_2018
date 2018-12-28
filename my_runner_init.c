@@ -44,7 +44,7 @@ void init_position_2(struct sfRunner *sf)
 {
     sf->positionGround.x = 0;
     sf->positionGround.y = 130;
-    sf->positionPlatform.x = 1000;
+    sf->positionPlatform.x = 1300;
     sf->positionPlatform.y = 485;
     sf->positionDead.x = -90;
     sf->positionDead.y = 0;
@@ -52,6 +52,12 @@ void init_position_2(struct sfRunner *sf)
     sf->positionPortal.y = 300;
     sf->positionScore.x = 10;
     sf->positionScore.y = 0;
+    sf->positionPlay.x = 200;
+    sf->positionPlay.y = 230;
+    sf->positionQuit.x = 400;
+    sf->positionQuit.y = 230;
+    sf->positionChangeSize.x = 200;
+    sf->positionChangeSize.y = 400;
 }
 
 void init_position(struct sfRunner *sf)
@@ -67,5 +73,8 @@ void init_position(struct sfRunner *sf)
     sf->positionPause.y /= 3;
     sf->positionBackground.x = 0;
     sf->positionBackground.y = 50;
+    sf->positionTitle.x = 140;
+    sf->positionTitle.y = 20;
+    sf->changeSize = 800;
     init_position_2(sf);
 }

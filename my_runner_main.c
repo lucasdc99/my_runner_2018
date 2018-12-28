@@ -10,11 +10,10 @@
 
 void increase_speed(struct sfRunner *sf)
 {
-    static int already_increase = -1;
+    static int already_increase = 0;
 
     if ((sf->secondSpawn / 1000) % 20 == 0 &&
     already_increase != sf->secondSpawn / 1000) {
-        sf->speedEnemy += 1.225;
         sf->speedMoveGround += 2;
         sf->speedMoveBackground++;
         sf->speedMoveSky++;
@@ -36,15 +35,51 @@ void main_loop_2(struct sfRunner *sf)
     move_rect_background(sf);
     move_rect_ground(sf);
     move_rect_sky(sf);
+    sf->speedEnemy = 1.225 * sf->speedMoveGround;
     draw_sf(sf);
+}
+
+void analyse_menu(struct sfRunner *sf)
+{
+    sf->pauseTime = sf->secondSpawn;
+    sfClock_restart(sf->clockSpawn);
+    if (sf->playerCondition == MENU && sf->changeSize == 800) {
+        modify_texture(sf);
+        set_texture(sf);
+        sf->textureBoutonPlay = sfTexture_createFromFile("images/play.png", NULL);
+        sf->textureBoutonQuit = sfTexture_createFromFile("images/quit.png", NULL);
+        sf->textureBoutonChangeSize = sfTexture_createFromFile("images/changeSize.png", NULL);
+        sf->textureTitle = sfTexture_createFromFile("images/title.png", NULL);
+        sf->spriteBoutonPlay = sfSprite_create();
+        sf->spriteBoutonQuit = sfSprite_create();
+        sf->spriteBoutonChangeSize = sfSprite_create();
+        sf->spriteTitle = sfSprite_create();
+        sfSprite_setTexture(sf->spriteBoutonPlay, sf->textureBoutonPlay, sfTrue);
+        sfSprite_setTexture(sf->spriteBoutonQuit, sf->textureBoutonQuit, sfTrue);
+        sfSprite_setTexture(sf->spriteBoutonChangeSize, sf->textureBoutonChangeSize, sfTrue);
+        sfSprite_setTexture(sf->spriteTitle, sf->textureTitle, sfTrue);
+        sfSprite_setPosition(sf->spriteBoutonPlay, sf->positionPlay);
+        sfSprite_setPosition(sf->spriteBoutonQuit, sf->positionQuit);
+        sfSprite_setPosition(sf->spriteBoutonChangeSize, sf->positionChangeSize);
+        sfSprite_setPosition(sf->spriteTitle, sf->positionTitle);
+        sfRenderWindow_clear(sf->window, sfBlack);
+        sfRenderWindow_drawSprite(sf->window, sf->spriteSky, NULL);
+        sfRenderWindow_drawSprite(sf->window, sf->spriteBackground, NULL);
+        sfRenderWindow_drawSprite(sf->window, sf->spriteGround, NULL);
+        sfRenderWindow_drawSprite(sf->window, sf->spriteBoutonPlay, NULL);
+        sfRenderWindow_drawSprite(sf->window, sf->spriteBoutonQuit, NULL);
+        sfRenderWindow_drawSprite(sf->window, sf->spriteBoutonChangeSize, NULL);
+        sfRenderWindow_drawSprite(sf->window, sf->spriteTitle, NULL);
+        sfRenderWindow_display(sf->window);
+    }
 }
 
 void main_loop(struct sfRunner *sf)
 {
     while (sfRenderWindow_pollEvent(sf->window, &sf->event))
         analyse_events(sf);
-    if (sf->playerCondition != PAUSE && sf->positionPortal.x > -100 &&
-    sf->positionPlayer.y < 800) {
+    if (sf->playerCondition != PAUSE && sf->playerCondition != MENU &&
+    sf->positionPortal.x > -100 && sf->positionPlayer.y < 800) {
         analyse_after_pause(sf);
         sf->time = sfClock_getElapsedTime(sf->clock);
         sf->timeSpawn = sfClock_getElapsedTime(sf->clockSpawn);
@@ -59,6 +94,7 @@ void main_loop(struct sfRunner *sf)
         analyse_map(sf);
         main_loop_2(sf);
     } else {
+        analyse_menu(sf);
         analyse_pause(sf);
     }
 }

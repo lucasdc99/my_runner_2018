@@ -7,14 +7,6 @@
 
 #ifndef MY_H_
 #define MY_H_
-#define DEAD 3
-#define END 6
-#define JUMP 1
-#define FALL -1
-#define REGULAR 0
-#define PAUSE 2
-#define ON_PLATFORM_REGULAR 4
-#define ON_PLATFORM_JUMP 5
 
 #include <SFML/Audio.h>
 #include <SFML/Audio/Export.h>
@@ -41,6 +33,18 @@
 #include <stdlib.h>
 #include <time.h>
 
+enum State {
+    DEAD = 3,
+    END = 6,
+    JUMP = 1,
+    FALL = -1,
+    REGULAR = 0,
+    PAUSE = 2,
+    ON_PLATFORM_REGULAR = 4,
+    ON_PLATFORM_JUMP = 5,
+    MENU = -2
+};
+
 struct sfRunner {
     sfRenderWindow* window;
     sfVideoMode mode;
@@ -53,6 +57,10 @@ struct sfRunner {
     sfTexture *textureDead;
     sfTexture *textureEnd;
     sfTexture *texturePortal;
+    sfTexture *textureBoutonPlay;
+    sfTexture *textureBoutonQuit;
+    sfTexture *textureBoutonChangeSize;
+    sfTexture *textureTitle;
     sfSprite *spritePlayer;
     sfSprite *spriteEnemy;
     sfSprite *spriteBackground;
@@ -62,6 +70,10 @@ struct sfRunner {
     sfSprite *spriteDead;
     sfSprite *spriteEnd;
     sfSprite *spritePortal;
+    sfSprite *spriteBoutonPlay;
+    sfSprite *spriteBoutonQuit;
+    sfSprite *spriteBoutonChangeSize;
+    sfSprite *spriteTitle;
     sfText *pause;
     sfText *score;
     sfFont *font;
@@ -91,6 +103,10 @@ struct sfRunner {
     sfVector2f positionDead;
     sfVector2f positionScore;
     sfVector2f positionPortal;
+    sfVector2f positionPlay;
+    sfVector2f positionQuit;
+    sfVector2f positionChangeSize;
+    sfVector2f positionTitle;
     sfVector2f scaleBackground;
     sfVector2f scaleGround;
     sfVector2f scaleSky;
@@ -130,6 +146,7 @@ struct sfRunner {
     int nearPlatform;
     int in_pause;
     int in_game;
+    int changeSize;
     float speedEnemy;
     char *scoreStr;
     char *livesStr;
@@ -174,6 +191,7 @@ void help(void);
 void analyse_score(struct sfRunner *);
 void analyse_pause(struct sfRunner *);
 void analyse_after_pause(struct sfRunner *);
+void modify_texture(struct sfRunner *);
 char *get_next_line(int);
 
 #endif //MY_H_

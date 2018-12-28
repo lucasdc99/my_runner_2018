@@ -19,6 +19,9 @@ void manage_key_pressed_2(struct sfRunner *sf)
         init_rect(sf);
         init_other(sf);
         init_position(sf);
+        sf->speedMoveBackground = 1;
+        sf->speedMoveGround = 3;
+        sf->speedMoveSky = 2;
         set_other(sf);
         for (int i = 0; i < 10; i++)
             sf->scoreStr[i] = 0;
