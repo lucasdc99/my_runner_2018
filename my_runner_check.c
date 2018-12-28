@@ -32,6 +32,7 @@ void check_position_player_platform(struct sfRunner *sf)
     sf->positionPlayer.x <= sf->positionPlatform.x + 80) {
         if (sf->playerCondition != ON_PLATFORM_JUMP) {
             sf->playerCondition = FALL;
+            sf->nearPlatform = 0;
         }
     }
 }
