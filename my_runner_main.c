@@ -21,7 +21,7 @@ void main_loop_2(struct sfRunner *sf)
     move_rect_background(sf);
     move_rect_ground(sf);
     move_rect_sky(sf);
-    sf->speedEnemy = 1.225 * sf->speedMoveGround;
+    sf->speedEnemy = 1.2 * sf->speedMoveGround;
     draw_sf(sf);
 }
 
