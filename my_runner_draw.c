@@ -15,6 +15,11 @@ void draw_end_dead(struct sfRunner *sf)
         sfText_setPosition(sf->score, sf->positionScore);
         sfRenderWindow_drawSprite(sf->window, sf->spriteDead, NULL);
         sfRenderWindow_drawText(sf->window, sf->score, NULL);
+        if (sfMusic_getStatus(sf->music) == sfPlaying) {
+            sfMusic_stop(sf->music);
+            sfMusic_play(sf->help);
+            sfMusic_play(sf->musicDead);
+        }
     }
     if (sf->playerCondition == END && sf->positionPortal.x < 0) {
         sf->positionScore.x = 530;
@@ -23,6 +28,10 @@ void draw_end_dead(struct sfRunner *sf)
         sfText_setPosition(sf->score, sf->positionScore);
         sfRenderWindow_drawSprite(sf->window, sf->spriteEnd, NULL);
         sfRenderWindow_drawText(sf->window, sf->score, NULL);
+        if (sfMusic_getStatus(sf->music) == sfPlaying) {
+            sfMusic_stop(sf->music);
+            sfMusic_play(sf->pickleRick);
+        }
     }
 }
 
@@ -83,6 +92,11 @@ void destroy_other(struct sfRunner *sf)
     sfText_destroy(sf->score);
     sfClock_destroy(sf->clock);
     sfClock_destroy(sf->clockSpawn);
+    sfMusic_destroy(sf->pickleRick);
+    sfMusic_destroy(sf->help);
+    sfMusic_destroy(sf->music);
+    sfMusic_destroy(sf->musicDead);
+    sfMusic_destroy(sf->start);
     free(sf->map);
     free(sf->map2);
     free(sf->scoreStr);

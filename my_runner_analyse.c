@@ -47,11 +47,18 @@ void analyse_score(struct sfRunner *sf)
 
 void analyse_menu(struct sfRunner *sf)
 {
+    static int ok = 0;
+
     sf->pauseTime = sf->secondSpawn;
     sfClock_restart(sf->clockSpawn);
     if (sf->playerCondition == MENU && sf->changeSize == 800) {
         modify_texture(sf);
         set_texture(sf);
+        if (ok == 0) {
+            sf->musicMenu = sfMusic_createFromFile("music/musicMenu.ogg");
+            sfMusic_play(sf->musicMenu);
+            ok = 1;
+        }
         sfSprite_setTexture(sf->spriteBoutonPlay,
         sf->textureBoutonPlay, sfTrue);
         sfSprite_setTexture(sf->spriteBoutonQuit,

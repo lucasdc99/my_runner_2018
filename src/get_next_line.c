@@ -46,13 +46,13 @@ char *read_line(char **buffer, char *str, int sizeStr, int fd)
         str = my_realloc(str);
         buffer[0][size] = '\0';
         count = 0;
-        for (; *buffer[0] != '\n' && count < size; *buffer[0]++) {
+        for (; *buffer[0] != '\n' && count < size; (*buffer)++) {
             str[sizeStr] = *buffer[0];
             count++;
             sizeStr++;
         }
     }
-    *buffer[0]++;
+    (*buffer)++;
     return (str);
 }
 
@@ -73,7 +73,7 @@ char *get_next_line(int fd)
     str = read_line(&buffer, str, sizeStr, fd);
     for (int i = 0; *buffer != '\0'; i++) {
         over[i] = *buffer;
-        *buffer++;
+        (buffer)++;
     }
     return (str);
 }

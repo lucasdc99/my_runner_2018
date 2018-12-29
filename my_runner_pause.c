@@ -37,6 +37,8 @@ void bouton_play(struct sfRunner *sf)
     position.x < sf->positionPlay.x + 150) {
         if (position.y > sf->positionPlay.y &&
         position.y < sf->positionPlay.y + 150) {
+            sfMusic_destroy(sf->musicMenu);
+            sfMusic_play(sf->start);
             sf->playerCondition = REGULAR;
             analyse_after_pause(sf);
         }
@@ -52,6 +54,7 @@ void bouton_quit(struct sfRunner *sf)
         if (position.y > sf->positionQuit.y &&
         position.y < sf->positionQuit.y + 150) {
             sfRenderWindow_destroy(sf->window);
+            sfMusic_destroy(sf->musicMenu);
         }
     }
 }
@@ -82,6 +85,7 @@ void analyse_pause(struct sfRunner *sf)
     sf->pauseTime = sf->secondSpawn;
     sfClock_restart(sf->clockSpawn);
     if (sf->playerCondition == PAUSE && sf->in_pause == 0) {
+        sfMusic_pause(sf->music);
         modify_texture(sf);
         draw_sf(sf);
         sf->in_pause = 1;

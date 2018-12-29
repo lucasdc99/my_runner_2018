@@ -112,6 +112,12 @@ struct sfRunner {
     sfTime time;
     sfTime timeSpawn;
     sfView *view;
+    sfMusic *pickleRick;
+    sfMusic *help;
+    sfMusic *music;
+    sfMusic *musicDead;
+    sfMusic *start;
+    sfMusic *musicMenu;
     float seconds;
     int secondSpawn;
     int distanceSpawn;

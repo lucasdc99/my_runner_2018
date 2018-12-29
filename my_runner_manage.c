@@ -13,9 +13,9 @@ void manage_key_pressed_2(struct sfRunner *sf)
     (sf->playerCondition == DEAD || sf->playerCondition == END)) {
         sfRenderWindow_close(sf->window);
     }
-    if (sfKeyboard_isKeyPressed(sfKeyR) && (sf->playerCondition == DEAD &&
-    sf->positionPlayer.y > 800 || sf->playerCondition == END &&
-    sf->positionPortal.x < 0)) {
+    if (sfKeyboard_isKeyPressed(sfKeyR) && ((sf->playerCondition == DEAD &&
+    sf->positionPlayer.y > 800) || (sf->playerCondition == END &&
+    sf->positionPortal.x < 0))) {
         init_rect(sf);
         init_other(sf);
         init_position(sf);
@@ -23,6 +23,8 @@ void manage_key_pressed_2(struct sfRunner *sf)
         sf->speedMoveGround = 3;
         sf->speedMoveSky = 2;
         set_other(sf);
+        if (sfMusic_getStatus(sf->musicDead) == sfPlaying)
+            sfMusic_stop(sf->musicDead);
         for (int i = 0; i < 10; i++)
             sf->scoreStr[i] = 0;
         sf->pauseTime = 0;

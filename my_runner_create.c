@@ -36,6 +36,11 @@ void create_texture_sprite(struct sfRunner *sf)
     sf->textureBoutonChangeSize = sfTexture_createFromFile
     ("images/changeSize.png", NULL);
     sf->textureTitle = sfTexture_createFromFile("images/title.png", NULL);
+    sf->pickleRick = sfMusic_createFromFile("music/pickleRick.ogg");
+    sf->help = sfMusic_createFromFile("music/help.ogg");
+    sf->music = sfMusic_createFromFile("music/music.ogg");
+    sf->musicDead = sfMusic_createFromFile("music/musicDead.ogg");
+    sf->start = sfMusic_createFromFile("music/start.ogg");
     create_other(sf);
 }
 

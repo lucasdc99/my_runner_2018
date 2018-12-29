@@ -31,7 +31,7 @@ OBJ     =       $(SRC:.c=.o)
 
 NAME    =       my_runner
 
-CFLAGS  =       -W -ansi -pedantic -g -std=c99 -I include
+CFLAGS  =       -W -Werror -Wextra -Wall -Wparentheses -Wsign-compare -Wpointer-sign -Wuninitialized -Wunused-but-set-variable -ansi -pedantic -g -std=c99 -I ./include
 
 all:    $(NAME)
 

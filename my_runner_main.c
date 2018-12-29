@@ -22,6 +22,13 @@ void main_loop_2(struct sfRunner *sf)
     move_rect_ground(sf);
     move_rect_sky(sf);
     sf->speedEnemy = 1.2 * sf->speedMoveGround;
+    if (sfMusic_getStatus(sf->music) == sfPaused)
+        sfMusic_play(sf->music);
+    else if (sfMusic_getStatus(sf->music) == sfStopped && sf->positionPortal.x > 0) {
+        sfMusic_play(sf->music);
+    }
+    //printf("%f\n", sfMusic_getPlayingOffset(sf->music).microseconds / 1000000.0);
+    //if ((sfMusic_getPlayingOffset(sf->music).microseconds / 1000000.0) == 1.0)
     draw_sf(sf);
 }
 

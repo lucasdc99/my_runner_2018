@@ -57,4 +57,5 @@ int check_args(int ac, char **av, struct sfRunner *sf)
     if (ac == 3 && my_strcmp(av[2], "-i") == 0) {
         sf->endless = 1;
     }
+    return (0);
 }
