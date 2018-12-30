@@ -18,6 +18,7 @@ void analyse_after_pause(struct sfRunner *sf)
         sfTexture_destroy(sf->texturePlatform);
         sf->texturePlayer = sfTexture_createFromFile("images/player.png", NULL);
         sf->textureEnemy = sfTexture_createFromFile("images/spikes.png", NULL);
+        sf->textureEnemy2 = sfTexture_createFromFile("images/spikes.png", NULL);
         sf->textureSky = sfTexture_createFromFile("images/sky.png", NULL);
         sf->textureBg = sfTexture_createFromFile("images/background.png", NULL);
         sf->textureGround = sfTexture_createFromFile("images/ground.png", NULL);
@@ -70,6 +71,8 @@ void modify_texture(struct sfRunner *sf)
     sf->texturePlayer = sfTexture_createFromFile
     ("images/player_blurr.png", NULL);
     sf->textureEnemy = sfTexture_createFromFile
+    ("images/spikes_blurr.png", NULL);
+    sf->textureEnemy2 = sfTexture_createFromFile
     ("images/spikes_blurr.png", NULL);
     sf->textureSky = sfTexture_createFromFile("images/sky_blurr.png", NULL);
     sf->textureBg = sfTexture_createFromFile

@@ -7,12 +7,16 @@
 
 #include "my.h"
 
-void manage_key_pressed_2(struct sfRunner *sf)
+void manage_key_pressed_3(struct sfRunner *sf)
 {
     if (sfKeyboard_isKeyPressed(sfKeyQ) &&
     (sf->playerCondition == DEAD || sf->playerCondition == END)) {
         sfRenderWindow_close(sf->window);
     }
+}
+
+void manage_key_pressed_2(struct sfRunner *sf)
+{
     if (sfKeyboard_isKeyPressed(sfKeyR) && ((sf->playerCondition == DEAD &&
     sf->positionPlayer.y > 800) || (sf->playerCondition == END &&
     sf->positionPortal.x < 0))) {
@@ -22,6 +26,8 @@ void manage_key_pressed_2(struct sfRunner *sf)
         sf->speedMoveBackground = 1;
         sf->speedMoveGround = 3;
         sf->speedMoveSky = 2;
+        sf->existingPlatform = 0;
+        sf->existingSpike = 0;
         set_other(sf);
         if (sfMusic_getStatus(sf->musicDead) == sfPlaying)
             sfMusic_stop(sf->musicDead);
@@ -30,6 +36,7 @@ void manage_key_pressed_2(struct sfRunner *sf)
         sf->pauseTime = 0;
         sf->playerCondition = REGULAR;
     }
+    manage_key_pressed_3(sf);
 }
 
 void manage_key_pressed(struct sfRunner *sf)
@@ -58,18 +65,18 @@ void manage_key_pressed(struct sfRunner *sf)
 
 void manage_spike(struct sfRunner *sf)
 {
-    sf->positionEnemy.x -= sf->speedEnemy;
-    sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
+    if (sf->existingSpike == 1 || sf->positionEnemy.x < 1000) {
+        sf->positionEnemy.x -= sf->speedEnemy;
+        sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
+    }
+    if (sf->existingSpike == 2 || sf->positionEnemy2.x < 1000) {
+        sf->positionEnemy2.x -= sf->speedEnemy;
+        sfSprite_setPosition(sf->spriteEnemy2, sf->positionEnemy2);
+    }
 }
 
 void manage_platform(struct sfRunner *sf)
 {
     sf->positionPlatform.x -= sf->speedEnemy;
     sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
-}
-
-void manage_portal(struct sfRunner *sf)
-{
-    sf->positionPortal.x -= sf->speedEnemy;
-    sfSprite_setPosition(sf->spritePortal, sf->positionPortal);
 }

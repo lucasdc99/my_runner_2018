@@ -22,7 +22,7 @@ void init_other_2(struct sfRunner *sf)
     sf->maxValueBackground = 645;
     sf->maxValueGround = 720;
     sf->maxValueSky = 1920;
-    sf->distanceSpawn = 1;
+    sf->distanceSpawn = 0;
     sf->speedEnemy = 4.9;
     sf->shift = 0;
     sf->nearPlatform = 0;
@@ -61,6 +61,7 @@ void set_other_2(struct sfRunner *sf)
     sfSprite_setScale(sf->spriteBackground, sf->scaleBackground);
     sfSprite_setScale(sf->spriteGround, sf->scaleGround);
     sfSprite_setScale(sf->spriteEnemy, sf->scaleEnemy);
+    sfSprite_setScale(sf->spriteEnemy2, sf->scaleEnemy);
     sfSprite_setScale(sf->spritePlatform, sf->scalePlatform);
     sfSprite_setScale(sf->spritePortal, sf->scalePlatform);
     sfRenderWindow_setFramerateLimit(sf->window, 60);
@@ -84,5 +85,6 @@ void set_other(struct sfRunner *sf)
     sfText_setOutlineColor(sf->pause, sfWhite);
     sfSprite_setPosition(sf->spritePlayer, sf->positionPlayer);
     sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
+    sfSprite_setPosition(sf->spriteEnemy2, sf->positionEnemy2);
     set_other_2(sf);
 }

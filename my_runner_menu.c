@@ -82,3 +82,9 @@ void bouton_change_size(struct sfRunner *sf)
         }
     }
 }
+
+void manage_portal(struct sfRunner *sf)
+{
+    sf->positionPortal.x -= sf->speedEnemy;
+    sfSprite_setPosition(sf->spritePortal, sf->positionPortal);
+}

@@ -50,6 +50,7 @@ struct sfRunner {
     sfVideoMode mode;
     sfTexture *texturePlayer;
     sfTexture *textureEnemy;
+    sfTexture *textureEnemy2;
     sfTexture *textureBg;
     sfTexture *textureSky;
     sfTexture *textureGround;
@@ -63,6 +64,7 @@ struct sfRunner {
     sfTexture *textureTitle;
     sfSprite *spritePlayer;
     sfSprite *spriteEnemy;
+    sfSprite *spriteEnemy2;
     sfSprite *spriteBackground;
     sfSprite *spriteSky;
     sfSprite *spriteGround;
@@ -86,6 +88,7 @@ struct sfRunner {
     sfIntRect rectSky;
     sfVector2f positionPlayer;
     sfVector2f positionEnemy;
+    sfVector2f positionEnemy2;
     sfVector2f positionBackground;
     sfVector2f positionSky;
     sfVector2f mvmtPlayer;
@@ -140,15 +143,21 @@ struct sfRunner {
     int in_pause;
     int in_game;
     int changeSize;
+    int mapLine;
+    int mapLength;
     float speedEnemy;
     char *scoreStr;
-    char *map;
-    char *map2;
+    char **map2d;
+    char charNothing;
+    char charBottom;
+    char charPlatform;
+    char charSpike;
 };
 
 void my_putchar(char);
 int my_putstr(char const *);
 int my_strcmp(char const *, char const *);
+int my_strlen(char const *);
 char *get_next_line(int);
 void init_rect(struct sfRunner *);
 void init_position(struct sfRunner *);
@@ -161,10 +170,7 @@ void set_other(struct sfRunner *);
 void draw_sf(struct sfRunner *);
 void destroy_texture_sprite(struct sfRunner *);
 void destroy_other(struct sfRunner *);
-void move_rect(struct sfRunner *, int);
-void move_rect_ground(struct sfRunner *);
-void move_rect_background(struct sfRunner *);
-void move_rect_sky(struct sfRunner *);
+void move_sprites(struct sfRunner *, int);
 void manage_key_pressed(struct sfRunner *);
 void analyse_events(struct sfRunner *);
 void map(struct sfRunner *, int);
@@ -191,5 +197,6 @@ void analyse_menu(struct sfRunner *);
 void bouton_play(struct sfRunner *);
 void bouton_quit(struct sfRunner *);
 void bouton_change_size(struct sfRunner *);
+void create_map(struct sfRunner *, int, char *);
 
 #endif //MY_H_

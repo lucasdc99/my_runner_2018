@@ -1,0 +1,8 @@
+The map contains 1 to 3 floors excluding the 'bottom floor' (floor 0).
+Each line must have same length.
+The player spawn on the 1st floor, just above the bottom floor.
+Legend:
+	'0' = Nothing
+	'1' = bottom floor
+	'P' = Platform
+	'S' = Spike

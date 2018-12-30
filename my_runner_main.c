@@ -10,6 +10,9 @@
 
 void main_loop_2(struct sfRunner *sf)
 {
+    if (sf->positionPortal.x > 100)
+        analyse_score(sf);
+    analyse_map(sf);
     sfSprite_move(sf->spritePlayer, sf->mvmtPlayer);
     if (sf->existingSpike >= 1)
         manage_spike(sf);
@@ -18,17 +21,13 @@ void main_loop_2(struct sfRunner *sf)
     if (sf->playerCondition == END)
         manage_portal(sf);
     increase_speed(sf);
-    move_rect_background(sf);
-    move_rect_ground(sf);
-    move_rect_sky(sf);
+    move_sprites(sf, 100);
     sf->speedEnemy = 1.2 * sf->speedMoveGround;
-    if (sfMusic_getStatus(sf->music) == sfPaused)
-        sfMusic_play(sf->music);
-    else if (sfMusic_getStatus(sf->music) == sfStopped && sf->positionPortal.x > 0) {
+    if (sfMusic_getStatus(sf->music) == sfPaused ||
+    (sfMusic_getStatus(sf->music) == sfStopped && sf->positionPortal.x > 0) ||
+    ((sfMusic_getPlayingOffset(sf->music).microseconds / 1000000.0) > 290.0)) {
         sfMusic_play(sf->music);
     }
-    //printf("%f\n", sfMusic_getPlayingOffset(sf->music).microseconds / 1000000.0);
-    //if ((sfMusic_getPlayingOffset(sf->music).microseconds / 1000000.0) == 1.0)
     draw_sf(sf);
 }
 
@@ -47,8 +46,6 @@ void main_loop(struct sfRunner *sf)
         check_position_player(sf);
         check_position_player_platform(sf);
         check_position_2(sf);
-        analyse_score(sf);
-        analyse_map(sf);
         main_loop_2(sf);
     } else {
         analyse_menu(sf);
@@ -59,19 +56,21 @@ void main_loop(struct sfRunner *sf)
 void help(void)
 {
     my_putstr("\nUSAGE\n");
-    my_putstr("\t./my_runner map.txt\n");
+    my_putstr("\t./my_runner [OPTIONS]\n");
     my_putstr("\nDESCRIPTION\n");
-    my_putstr("\tUse SPACE to jump over spikes and beat the high score !\n");
+    my_putstr("\tHelp Pickle Rick to reach the portal !\n");
+    my_putstr("\tBe careful, Giant Heads placed obstacles on your way !\n");
     my_putstr("\nOPTIONS\n");
-    my_putstr("\t-i\tlaunch the game in infinity mode.\n");
-    my_putstr("\t-h\tprint the usage and quit.\n");
+    my_putstr("\tmap.txt\t\tlaunch the game.\n");
+    my_putstr("\tmap.txt -i\tlaunch the game in infinity mode.\n");
+    my_putstr("\t-h\t\tprint the usage and quit.\n");
     my_putstr("\nUSER INTERACTIONS\n");
     my_putstr(" During the game:\n");
     my_putstr("\tSPACE_KEY\tjump.\n");
     my_putstr("\tRETURN_KEY\tpause menu.\n");
-    my_putstr(" In the menu:\n");
+    my_putstr(" In the end or dead menu:\n");
     my_putstr("\tQ_KEY\t\tquit the game.\n");
-    my_putstr("\tRETURN_KEY\tresume game.\n");
+    my_putstr("\tR_KEY\t\trestart the game.\n");
 }
 
 int main(int ac, char **av)
@@ -85,11 +84,13 @@ int main(int ac, char **av)
         return (84);
     if (fd <= 0)
         return (84);
-    map(sf, fd);
-    map_2(sf, fd);
+    create_map(sf, fd, av[1]);
     create_sf(sf);
-    if (check_errors(sf) == 84)
+    if (check_errors(sf) == 84) {
+        destroy_texture_sprite(sf);
+        sfRenderWindow_destroy(sf->window);
         return (84);
+    }
     while (sfRenderWindow_isOpen(sf->window))
         main_loop(sf);
     destroy_texture_sprite(sf);

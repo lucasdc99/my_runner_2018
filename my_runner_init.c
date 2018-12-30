@@ -44,7 +44,7 @@ void init_position_2(struct sfRunner *sf)
 {
     sf->positionGround.x = 0;
     sf->positionGround.y = 130;
-    sf->positionPlatform.x = 1300;
+    sf->positionPlatform.x = 1000;
     sf->positionPlatform.y = 485;
     sf->positionDead.x = -90;
     sf->positionDead.y = 0;
@@ -66,6 +66,8 @@ void init_position(struct sfRunner *sf)
     sf->positionPlayer.y = 420;
     sf->positionEnemy.x = 1000;
     sf->positionEnemy.y = 485;
+    sf->positionEnemy2.x = 1000;
+    sf->positionEnemy2.y = 485;
     sf->positionSky.x = 0;
     sf->positionSky.y = -50;
     sf->positionPause = sfView_getSize(sf->view);

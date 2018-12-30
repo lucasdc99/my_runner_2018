@@ -7,20 +7,8 @@
 
 #include "my.h"
 
-void draw_end_dead(struct sfRunner *sf)
+void draw_end(struct sfRunner *sf)
 {
-    if (sf->playerCondition == DEAD && sf->positionPlayer.y > 800) {
-        sf->positionScore.x = 500;
-        sf->positionScore.y = 110;
-        sfText_setPosition(sf->score, sf->positionScore);
-        sfRenderWindow_drawSprite(sf->window, sf->spriteDead, NULL);
-        sfRenderWindow_drawText(sf->window, sf->score, NULL);
-        if (sfMusic_getStatus(sf->music) == sfPlaying) {
-            sfMusic_stop(sf->music);
-            sfMusic_play(sf->help);
-            sfMusic_play(sf->musicDead);
-        }
-    }
     if (sf->playerCondition == END && sf->positionPortal.x < 0) {
         sf->positionScore.x = 530;
         sf->positionScore.y = 130;
@@ -35,6 +23,22 @@ void draw_end_dead(struct sfRunner *sf)
     }
 }
 
+void draw_dead(struct sfRunner *sf)
+{
+    if (sf->playerCondition == DEAD && sf->positionPlayer.y > 800) {
+        sf->positionScore.x = 500;
+        sf->positionScore.y = 110;
+        sfText_setPosition(sf->score, sf->positionScore);
+        sfRenderWindow_drawSprite(sf->window, sf->spriteDead, NULL);
+        sfRenderWindow_drawText(sf->window, sf->score, NULL);
+        if (sfMusic_getStatus(sf->music) == sfPlaying) {
+            sfMusic_stop(sf->music);
+            sfMusic_play(sf->help);
+            sfMusic_play(sf->musicDead);
+        }
+    }
+}
+
 void draw_sf(struct sfRunner *sf)
 {
     sfRenderWindow_clear(sf->window, sfBlack);
@@ -43,61 +47,14 @@ void draw_sf(struct sfRunner *sf)
     sfRenderWindow_drawSprite(sf->window, sf->spriteBackground, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spriteGround, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spriteEnemy, NULL);
+    sfRenderWindow_drawSprite(sf->window, sf->spriteEnemy2, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spritePlatform, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spritePlayer, NULL);
     sfRenderWindow_drawSprite(sf->window, sf->spritePortal, NULL);
     sfRenderWindow_drawText(sf->window, sf->score, NULL);
     if (sf->playerCondition == PAUSE)
         sfRenderWindow_drawText(sf->window, sf->pause, NULL);
-    draw_end_dead(sf);
+    draw_dead(sf);
+    draw_end(sf);
     sfRenderWindow_display(sf->window);
-}
-
-void destroy_texture_sprite(struct sfRunner *sf)
-{
-    sfSprite_destroy(sf->spritePlayer);
-    sfSprite_destroy(sf->spriteEnemy);
-    sfSprite_destroy(sf->spriteBackground);
-    sfSprite_destroy(sf->spriteSky);
-    sfSprite_destroy(sf->spriteGround);
-    sfSprite_destroy(sf->spritePlatform);
-    sfSprite_destroy(sf->spriteDead);
-    sfSprite_destroy(sf->spriteEnd);
-    sfSprite_destroy(sf->spritePortal);
-    sfSprite_destroy(sf->spriteBoutonPlay);
-    sfSprite_destroy(sf->spriteBoutonQuit);
-    sfSprite_destroy(sf->spriteBoutonChangeSize);
-    sfSprite_destroy(sf->spriteTitle);
-    sfTexture_destroy(sf->texturePlayer);
-    sfTexture_destroy(sf->textureEnemy);
-    sfTexture_destroy(sf->textureBg);
-    sfTexture_destroy(sf->textureSky);
-    sfTexture_destroy(sf->textureGround);
-    sfTexture_destroy(sf->texturePlatform);
-    destroy_other(sf);
-}
-
-void destroy_other(struct sfRunner *sf)
-{
-    sfTexture_destroy(sf->textureDead);
-    sfTexture_destroy(sf->textureEnd);
-    sfTexture_destroy(sf->texturePortal);
-    sfTexture_destroy(sf->textureBoutonPlay);
-    sfTexture_destroy(sf->textureBoutonQuit);
-    sfTexture_destroy(sf->textureBoutonChangeSize);
-    sfTexture_destroy(sf->textureTitle);
-    sfView_destroy(sf->view);
-    sfFont_destroy(sf->font);
-    sfText_destroy(sf->pause);
-    sfText_destroy(sf->score);
-    sfClock_destroy(sf->clock);
-    sfClock_destroy(sf->clockSpawn);
-    sfMusic_destroy(sf->pickleRick);
-    sfMusic_destroy(sf->help);
-    sfMusic_destroy(sf->music);
-    sfMusic_destroy(sf->musicDead);
-    sfMusic_destroy(sf->start);
-    free(sf->map);
-    free(sf->map2);
-    free(sf->scoreStr);
 }

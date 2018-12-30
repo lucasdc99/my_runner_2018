@@ -29,13 +29,11 @@ void analyse_score(struct sfRunner *sf)
     sf->scoreInt = (sf->secondSpawn + sf->shift) / 100;
     tmp = sf->scoreInt;
     for (int i = 0; i != 1;) {
-        if (tmp / 10 == 0) {
+        if (tmp / 10 == 0)
             i = 1;
-            tmp /= 10;
-        } else {
-            tmp /= 10;
+        else
             length++;
-        }
+        tmp /= 10;
     }
     for (int i = length - 1; i >= 0; i--) {
         sf->scoreStr[i] = sf->scoreInt % 10;
@@ -43,6 +41,22 @@ void analyse_score(struct sfRunner *sf)
         sf->scoreInt /= 10;
     }
     sfText_setString(sf->score, sf->scoreStr);
+}
+
+void set_menu(struct sfRunner *sf)
+{
+    sfSprite_setTexture(sf->spriteBoutonPlay,
+    sf->textureBoutonPlay, sfTrue);
+    sfSprite_setTexture(sf->spriteBoutonQuit,
+    sf->textureBoutonQuit, sfTrue);
+    sfSprite_setTexture(sf->spriteBoutonChangeSize,
+    sf->textureBoutonChangeSize, sfTrue);
+    sfSprite_setTexture(sf->spriteTitle, sf->textureTitle, sfTrue);
+    sfSprite_setPosition(sf->spriteBoutonPlay, sf->positionPlay);
+    sfSprite_setPosition(sf->spriteBoutonQuit, sf->positionQuit);
+    sfSprite_setPosition(sf->spriteBoutonChangeSize,
+    sf->positionChangeSize);
+    sfSprite_setPosition(sf->spriteTitle, sf->positionTitle);
 }
 
 void analyse_menu(struct sfRunner *sf)
@@ -59,18 +73,7 @@ void analyse_menu(struct sfRunner *sf)
             sfMusic_play(sf->musicMenu);
             ok = 1;
         }
-        sfSprite_setTexture(sf->spriteBoutonPlay,
-        sf->textureBoutonPlay, sfTrue);
-        sfSprite_setTexture(sf->spriteBoutonQuit,
-        sf->textureBoutonQuit, sfTrue);
-        sfSprite_setTexture(sf->spriteBoutonChangeSize,
-        sf->textureBoutonChangeSize, sfTrue);
-        sfSprite_setTexture(sf->spriteTitle, sf->textureTitle, sfTrue);
-        sfSprite_setPosition(sf->spriteBoutonPlay, sf->positionPlay);
-        sfSprite_setPosition(sf->spriteBoutonQuit, sf->positionQuit);
-        sfSprite_setPosition(sf->spriteBoutonChangeSize,
-        sf->positionChangeSize);
-        sfSprite_setPosition(sf->spriteTitle, sf->positionTitle);
+        set_menu(sf);
         change_size_800(sf);
     }
 }

@@ -7,23 +7,40 @@
 
 #include "my.h"
 
+int check_map_char(struct sfRunner *sf, int i)
+{
+    for (int j = 0; j < sf->mapLine; j++) {
+        if (sf->map2d[i][j] != sf->charNothing &&
+        sf->map2d[i][j] != sf->charBottom &&
+        sf->map2d[i][j] != sf->charPlatform &&
+        sf->map2d[i][j] != sf->charSpike) {
+            my_putstr("Error: Char used must be define in .legend file\n");
+            return (84);
+        }
+    }
+    return (0);
+}
+
+int check_map(struct sfRunner *sf)
+{
+    for (int i = 0; i < sf->mapLength; i++) {
+        if (my_strlen(sf->map2d[i]) != sf->mapLine) {
+            my_putstr("Error: Each lines must have same length\n");
+            return (84);
+        }
+        if (check_map_char(sf, i) == 84)
+            return (84);
+    }
+    return (0);
+}
+
 int check_errors_2(struct sfRunner *sf)
 {
-    if (!sf->view)
+    if (!sf->view || !sf->pause || !sf->font || !sf->pause || !sf->clock)
         return (84);
-    if (!sf->pause)
+    if (!sf->clockSpawn || !sf->window)
         return (84);
-    if (!sf->font)
-        return (84);
-    if (!sf->pause)
-        return (84);
-    if (!sf->clock)
-        return (84);
-    if (!sf->clockSpawn)
-        return (84);
-    if (!sf->window)
-        return (84);
-    return (0);
+    return (check_map(sf));
 }
 
 int check_errors(struct sfRunner *sf)
