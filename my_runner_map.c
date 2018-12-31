@@ -13,9 +13,8 @@ void analyse_map_2(struct sfRunner *sf, int i)
         sf->distanceSpawn = 1;
         sf->shift = sf->secondSpawn;
         sfClock_restart(sf->clockSpawn);
-    } else if (sf->distanceSpawn > sf->mapLine &&
-    sf->endless == 0 && sf->existingPlatform <= 0
-    && sf->existingSpike <= 0) {
+    } else if (sf->distanceSpawn > sf->mapLine && sf->endless == 0 &&
+    sf->existingPlatform <= 0 && sf->existingSpike <= 0) {
         sf->playerCondition = END;
     }
     if (sf->map2d[i][sf->distanceSpawn] == sf->charPlatform) {

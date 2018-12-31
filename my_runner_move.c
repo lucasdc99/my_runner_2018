@@ -87,7 +87,7 @@ void increase_speed(struct sfRunner *sf)
 
     if (sf->secondSpawn == 0)
         already_increase = 0;
-    else if ((sf->secondSpawn / 1000) % 20 == 0 &&
+    else if ((sf->secondSpawn / 1000) % 10 == 0 &&
     already_increase != sf->secondSpawn / 1000) {
         sf->speedMoveGround += 2;
         sf->speedMoveBackground++;
