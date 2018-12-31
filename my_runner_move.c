@@ -26,6 +26,9 @@ void move_sprites(struct sfRunner *sf, int offset)
 
 void check_position_enemy(struct sfRunner *sf)
 {
+    sf->positionEnemy = sfSprite_getPosition(sf->spriteEnemy);
+    sf->positionEnemy2 = sfSprite_getPosition(sf->spriteEnemy2);
+    sf->positionEnemy3 = sfSprite_getPosition(sf->spriteEnemy3);
     if (sf->positionEnemy.x < -100) {
         sf->existingSpike--;
         sf->positionEnemy.x = 1000;
@@ -36,12 +39,18 @@ void check_position_enemy(struct sfRunner *sf)
         sf->positionEnemy2.x = 1000;
         sfSprite_setPosition(sf->spriteEnemy2, sf->positionEnemy2);
     }
+    if (sf->positionEnemy3.x < -100) {
+        sf->existingSpike--;
+        sf->positionEnemy3.x = 1000;
+        sfSprite_setPosition(sf->spriteEnemy3, sf->positionEnemy3);
+    }
 }
 
 void check_position_2(struct sfRunner *sf)
 {
-    sf->positionEnemy = sfSprite_getPosition(sf->spriteEnemy);
     sf->positionPlatform = sfSprite_getPosition(sf->spritePlatform);
+    sf->positionPlatform2 = sfSprite_getPosition(sf->spritePlatform2);
+    sf->positionPlatform3 = sfSprite_getPosition(sf->spritePlatform3);
     if (sf->playerCondition == DEAD) {
         sf->speedMoveBackground = 1;
         sf->speedMoveGround = 2;
@@ -54,5 +63,15 @@ void check_position_2(struct sfRunner *sf)
         sf->existingPlatform--;
         sf->positionPlatform.x = 1000;
         sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
+    }
+    if (sf->positionPlatform2.x < -100) {
+        sf->existingPlatform--;
+        sf->positionPlatform2.x = 1000;
+        sfSprite_setPosition(sf->spritePlatform2, sf->positionPlatform2);
+    }
+    if (sf->positionPlatform3.x < -100) {
+        sf->existingPlatform--;
+        sf->positionPlatform3.x = 1000;
+        sfSprite_setPosition(sf->spritePlatform3, sf->positionPlatform3);
     }
 }

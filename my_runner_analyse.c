@@ -11,7 +11,9 @@ void increase_speed(struct sfRunner *sf)
 {
     static int already_increase = 0;
 
-    if ((sf->secondSpawn / 1000) % 20 == 0 &&
+    if (sf->secondSpawn == 0)
+        already_increase = 0;
+    else if ((sf->secondSpawn / 1000) % 20 == 0 &&
     already_increase != sf->secondSpawn / 1000) {
         sf->speedMoveGround += 2;
         sf->speedMoveBackground++;
@@ -65,14 +67,12 @@ void analyse_menu(struct sfRunner *sf)
 
     sf->pauseTime = sf->secondSpawn;
     sfClock_restart(sf->clockSpawn);
-    if (sf->playerCondition == MENU && sf->changeSize == 800) {
+    if (sf->playerCondition == MENU && sf->changeSize == 800 && ok == 0) {
         modify_texture(sf);
         set_texture(sf);
-        if (ok == 0) {
-            sf->musicMenu = sfMusic_createFromFile("music/musicMenu.ogg");
-            sfMusic_play(sf->musicMenu);
-            ok = 1;
-        }
+        sf->musicMenu = sfMusic_createFromFile("music/musicMenu.ogg");
+        sfMusic_play(sf->musicMenu);
+        ok = 1;
         set_menu(sf);
         change_size_800(sf);
     }
@@ -80,8 +80,18 @@ void analyse_menu(struct sfRunner *sf)
 
 void analyse_events(struct sfRunner *sf)
 {
-    if (sf->event.type == sfEvtClosed)
+    if (sf->event.type == sfEvtClosed) {
+        if (sf->playerCondition == MENU) {
+            sfMusic_destroy(sf->musicMenu);
+            sfTexture_destroy(sf->textureBoutonPlay);
+            sfTexture_destroy(sf->textureBoutonQuit);
+            sfTexture_destroy(sf->textureBoutonChangeSize);
+            sfSprite_destroy(sf->spriteBoutonPlay);
+            sfSprite_destroy(sf->spriteBoutonQuit);
+            sfSprite_destroy(sf->spriteBoutonChangeSize);
+        }
         sfRenderWindow_close(sf->window);
+    }
     if (sf->event.type == sfEvtKeyPressed)
         manage_key_pressed(sf);
     if (sf->event.type == sfEvtResized) {

@@ -14,10 +14,8 @@ void main_loop_2(struct sfRunner *sf)
         analyse_score(sf);
     analyse_map(sf);
     sfSprite_move(sf->spritePlayer, sf->mvmtPlayer);
-    if (sf->existingSpike >= 1)
-        manage_spike(sf);
-    if (sf->existingPlatform >= 1)
-        manage_platform(sf);
+    manage_spike(sf);
+    manage_platform(sf);
     if (sf->playerCondition == END)
         manage_portal(sf);
     increase_speed(sf);
@@ -71,6 +69,7 @@ void help(void)
     my_putstr(" In the end or dead menu:\n");
     my_putstr("\tQ_KEY\t\tquit the game.\n");
     my_putstr("\tR_KEY\t\trestart the game.\n");
+    my_putstr("\tE_KEY\t\t???\n");
 }
 
 int main(int ac, char **av)

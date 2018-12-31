@@ -16,9 +16,11 @@ void analyse_after_pause(struct sfRunner *sf)
         sfTexture_destroy(sf->textureBg);
         sfTexture_destroy(sf->textureGround);
         sfTexture_destroy(sf->texturePlatform);
-        sf->texturePlayer = sfTexture_createFromFile("images/player.png", NULL);
+        if (sf->e == 0)
+            sf->texturePlayer = sfTexture_createFromFile("images/player.png", NULL);
+        else
+            sf->texturePlayer = sfTexture_createFromFile("images/75538.png", NULL);
         sf->textureEnemy = sfTexture_createFromFile("images/spikes.png", NULL);
-        sf->textureEnemy2 = sfTexture_createFromFile("images/spikes.png", NULL);
         sf->textureSky = sfTexture_createFromFile("images/sky.png", NULL);
         sf->textureBg = sfTexture_createFromFile("images/background.png", NULL);
         sf->textureGround = sfTexture_createFromFile("images/ground.png", NULL);
@@ -39,6 +41,12 @@ void bouton_play(struct sfRunner *sf)
         if (position.y > sf->positionPlay.y &&
         position.y < sf->positionPlay.y + 150) {
             sfMusic_destroy(sf->musicMenu);
+            sfTexture_destroy(sf->textureBoutonPlay);
+            sfTexture_destroy(sf->textureBoutonQuit);
+            sfTexture_destroy(sf->textureBoutonChangeSize);
+            sfSprite_destroy(sf->spriteBoutonPlay);
+            sfSprite_destroy(sf->spriteBoutonQuit);
+            sfSprite_destroy(sf->spriteBoutonChangeSize);
             sfMusic_play(sf->start);
             sf->playerCondition = REGULAR;
             analyse_after_pause(sf);
@@ -68,11 +76,14 @@ void modify_texture(struct sfRunner *sf)
     sfTexture_destroy(sf->textureBg);
     sfTexture_destroy(sf->textureGround);
     sfTexture_destroy(sf->texturePlatform);
-    sf->texturePlayer = sfTexture_createFromFile
-    ("images/player_blurr.png", NULL);
+    if (sf->e == 0) {
+        sf->texturePlayer = sfTexture_createFromFile
+        ("images/player_blurr.png", NULL);
+    } else {
+        sf->texturePlayer = sfTexture_createFromFile
+        ("images/75538_blurr.png", NULL);
+    }
     sf->textureEnemy = sfTexture_createFromFile
-    ("images/spikes_blurr.png", NULL);
-    sf->textureEnemy2 = sfTexture_createFromFile
     ("images/spikes_blurr.png", NULL);
     sf->textureSky = sfTexture_createFromFile("images/sky_blurr.png", NULL);
     sf->textureBg = sfTexture_createFromFile

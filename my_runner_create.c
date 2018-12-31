@@ -22,7 +22,6 @@ void create_texture_sprite(struct sfRunner *sf)
 {
     sf->texturePlayer = sfTexture_createFromFile("images/player.png", NULL);
     sf->textureEnemy = sfTexture_createFromFile("images/spikes.png", NULL);
-    sf->textureEnemy2 = sfTexture_createFromFile("images/spikes.png", NULL);
     sf->textureSky = sfTexture_createFromFile("images/sky.png", NULL);
     sf->textureBg = sfTexture_createFromFile("images/background.png", NULL);
     sf->textureGround = sfTexture_createFromFile("images/ground.png", NULL);
@@ -59,10 +58,13 @@ void create_other(struct sfRunner *sf)
     sf->spritePlayer = sfSprite_create();
     sf->spriteEnemy = sfSprite_create();
     sf->spriteEnemy2 = sfSprite_create();
+    sf->spriteEnemy3 = sfSprite_create();
     sf->spriteSky = sfSprite_create();
     sf->spriteBackground = sfSprite_create();
     sf->spriteGround = sfSprite_create();
     sf->spritePlatform = sfSprite_create();
+    sf->spritePlatform2 = sfSprite_create();
+    sf->spritePlatform3 = sfSprite_create();
     sf->spriteDead = sfSprite_create();
     sf->spriteEnd = sfSprite_create();
     sf->spritePortal = sfSprite_create();
@@ -78,8 +80,11 @@ void set_texture(struct sfRunner *sf)
 {
     sfSprite_setTexture(sf->spritePlayer, sf->texturePlayer, sfTrue);
     sfSprite_setTexture(sf->spriteEnemy, sf->textureEnemy, sfTrue);
-    sfSprite_setTexture(sf->spriteEnemy2, sf->textureEnemy2, sfTrue);
+    sfSprite_setTexture(sf->spriteEnemy2, sf->textureEnemy, sfTrue);
+    sfSprite_setTexture(sf->spriteEnemy3, sf->textureEnemy, sfTrue);
     sfSprite_setTexture(sf->spritePlatform, sf->texturePlatform, sfTrue);
+    sfSprite_setTexture(sf->spritePlatform2, sf->texturePlatform, sfTrue);
+    sfSprite_setTexture(sf->spritePlatform3, sf->texturePlatform, sfTrue);
     sfSprite_setTexture(sf->spriteSky, sf->textureSky, sfTrue);
     sfSprite_setTexture(sf->spriteBackground, sf->textureBg, sfTrue);
     sfSprite_setTexture(sf->spriteGround, sf->textureGround, sfTrue);
