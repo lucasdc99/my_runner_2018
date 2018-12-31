@@ -50,8 +50,6 @@ void init_other(struct sfRunner *sf)
 
 void set_other_2(struct sfRunner *sf)
 {
-    sfSprite_setPosition(sf->spriteBackground, sf->positionBackground);
-    sfSprite_setPosition(sf->spriteGround, sf->positionGround);
     sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
     sfSprite_setPosition(sf->spritePlatform2, sf->positionPlatform2);
     sfSprite_setPosition(sf->spritePlatform3, sf->positionPlatform3);
@@ -92,5 +90,7 @@ void set_other(struct sfRunner *sf)
     sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
     sfSprite_setPosition(sf->spriteEnemy2, sf->positionEnemy2);
     sfSprite_setPosition(sf->spriteEnemy3, sf->positionEnemy3);
+    sfSprite_setPosition(sf->spriteBackground, sf->positionBackground);
+    sfSprite_setPosition(sf->spriteGround, sf->positionGround);
     set_other_2(sf);
 }

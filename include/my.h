@@ -177,7 +177,7 @@ void draw_sf(struct sfRunner *);
 void destroy_texture_sprite(struct sfRunner *);
 void destroy_other(struct sfRunner *);
 void move_sprites(struct sfRunner *, int);
-void manage_key_pressed(struct sfRunner *);
+void manage_key_pressed_space(struct sfRunner *);
 void analyse_events(struct sfRunner *);
 void map(struct sfRunner *, int);
 void map_2(struct sfRunner *, int);
@@ -205,5 +205,7 @@ void bouton_play(struct sfRunner *);
 void bouton_quit(struct sfRunner *);
 void bouton_change_size(struct sfRunner *);
 void create_map(struct sfRunner *, int, char *);
+void e_equal_0(struct sfRunner *);
+void e_equal_1(struct sfRunner *);
 
 #endif //MY_H_

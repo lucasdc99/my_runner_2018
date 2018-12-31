@@ -47,6 +47,11 @@ void create_other_2(struct sfRunner *sf)
     sf->clockSpawn = sfClock_create();
     sf->musicDead = sfMusic_createFromFile("music/musicDead.ogg");
     sf->start = sfMusic_createFromFile("music/start.ogg");
+    sf->view = sfView_createFromRect(sf->rectangleView);
+    sf->font = sfFont_createFromFile("fonts/get_schwifty.ttf");
+    sf->pause = sfText_create();
+    sf->score = sfText_create();
+    sf->music = sfMusic_createFromFile("music/music.ogg");
 }
 
 void create_other(struct sfRunner *sf)
@@ -68,11 +73,6 @@ void create_other(struct sfRunner *sf)
     sf->spriteDead = sfSprite_create();
     sf->spriteEnd = sfSprite_create();
     sf->spritePortal = sfSprite_create();
-    sf->view = sfView_createFromRect(sf->rectangleView);
-    sf->font = sfFont_createFromFile("fonts/get_schwifty.ttf");
-    sf->pause = sfText_create();
-    sf->score = sfText_create();
-    sf->music = sfMusic_createFromFile("music/music.ogg");
     create_other_2(sf);
 }
 

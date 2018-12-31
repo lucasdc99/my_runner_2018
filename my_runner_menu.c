@@ -83,8 +83,16 @@ void bouton_change_size(struct sfRunner *sf)
     }
 }
 
-void manage_portal(struct sfRunner *sf)
+void bouton_quit(struct sfRunner *sf)
 {
-    sf->positionPortal.x -= sf->speedEnemy;
-    sfSprite_setPosition(sf->spritePortal, sf->positionPortal);
+    sfVector2i position = sfMouse_getPositionRenderWindow(sf->window);
+
+    if (position.x > sf->positionQuit.x &&
+    position.x < sf->positionQuit.x + 150) {
+        if (position.y > sf->positionQuit.y &&
+        position.y < sf->positionQuit.y + 150) {
+            sfRenderWindow_destroy(sf->window);
+            sfMusic_destroy(sf->musicMenu);
+        }
+    }
 }

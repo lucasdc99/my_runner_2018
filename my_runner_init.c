@@ -21,6 +21,9 @@ void init_rect_2(struct sfRunner *sf)
     sf->viewPort.top = 0;
     sf->viewPort.width = 1;
     sf->viewPort.height = 1;
+    sf->existingPlatform = 0;
+    sf->existingSpike = 0;
+    sf->secondSpawn = 0;
 }
 
 void init_rect(struct sfRunner *sf)

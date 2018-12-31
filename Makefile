@@ -23,6 +23,8 @@ SRC     =   my_runner_main.c \
             my_runner_set.c \
             my_runner_menu.c \
             my_runner_destroy.c \
+            my_runner_platform.c \
+            my_runner_input.c \
             src/my_putchar.c \
             src/my_putstr.c \
             src/my_strcmp.c \

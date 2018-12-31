@@ -7,6 +7,18 @@
 
 #include "my.h"
 
+void draw_end_condition(struct sfRunner *sf)
+{
+    sfMusic_stop(sf->music);
+    if (sf->e == 0)
+        sfMusic_play(sf->pickleRick);
+    else {
+        sfMusic_destroy(sf->pickleRick);
+        sf->pickleRick = sfMusic_createFromFile("music/46753.ogg");
+        sfMusic_play(sf->pickleRick);
+    }
+}
+
 void draw_end(struct sfRunner *sf)
 {
     if (sf->playerCondition == END && sf->positionPortal.x < 0) {
@@ -20,14 +32,7 @@ void draw_end(struct sfRunner *sf)
         sfRenderWindow_drawSprite(sf->window, sf->spriteEnd, NULL);
         sfRenderWindow_drawText(sf->window, sf->score, NULL);
         if (sfMusic_getStatus(sf->music) == sfPlaying) {
-            sfMusic_stop(sf->music);
-            if (sf->e == 0)
-                sfMusic_play(sf->pickleRick);
-            else {
-                sfMusic_destroy(sf->pickleRick);
-                sf->pickleRick = sfMusic_createFromFile("music/46753.ogg");
-                sfMusic_play(sf->pickleRick);
-            }
+            draw_end_condition(sf);
         }
     }
 }

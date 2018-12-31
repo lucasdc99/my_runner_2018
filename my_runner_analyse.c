@@ -7,22 +7,6 @@
 
 #include "my.h"
 
-void increase_speed(struct sfRunner *sf)
-{
-    static int already_increase = 0;
-
-    if (sf->secondSpawn == 0)
-        already_increase = 0;
-    else if ((sf->secondSpawn / 1000) % 20 == 0 &&
-    already_increase != sf->secondSpawn / 1000) {
-        sf->speedMoveGround += 2;
-        sf->speedMoveBackground++;
-        sf->speedMoveSky++;
-        sf->speedPlayer -= 5;
-        already_increase = sf->secondSpawn / 1000;
-    }
-}
-
 void analyse_score(struct sfRunner *sf)
 {
     int length = 1;
@@ -78,6 +62,22 @@ void analyse_menu(struct sfRunner *sf)
     }
 }
 
+void analyse_events_2(struct sfRunner *sf)
+{
+    if (sf->event.type == sfEvtResized) {
+        sf->positionScope.x = sf->event.size.width;
+        sf->positionScope.y = sf->event.size.height;
+        sfView_setSize(sf->view, sf->positionScope);
+        sfRenderWindow_setView(sf->window, sf->view);
+    }
+    if (sf->event.type == sfEvtMouseButtonPressed &&
+    sf->playerCondition == MENU) {
+        bouton_play(sf);
+        bouton_quit(sf);
+        bouton_change_size(sf);
+    }
+}
+
 void analyse_events(struct sfRunner *sf)
 {
     if (sf->event.type == sfEvtClosed) {
@@ -93,17 +93,6 @@ void analyse_events(struct sfRunner *sf)
         sfRenderWindow_close(sf->window);
     }
     if (sf->event.type == sfEvtKeyPressed)
-        manage_key_pressed(sf);
-    if (sf->event.type == sfEvtResized) {
-        sf->positionScope.x = sf->event.size.width;
-        sf->positionScope.y = sf->event.size.height;
-        sfView_setSize(sf->view, sf->positionScope);
-        sfRenderWindow_setView(sf->window, sf->view);
-    }
-    if (sf->event.type == sfEvtMouseButtonPressed &&
-    sf->playerCondition == MENU) {
-        bouton_play(sf);
-        bouton_quit(sf);
-        bouton_change_size(sf);
-    }
+        manage_key_pressed_space(sf);
+    analyse_events_2(sf);
 }

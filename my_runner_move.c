@@ -46,19 +46,8 @@ void check_position_enemy(struct sfRunner *sf)
     }
 }
 
-void check_position_2(struct sfRunner *sf)
+void check_position_platform(struct sfRunner *sf)
 {
-    sf->positionPlatform = sfSprite_getPosition(sf->spritePlatform);
-    sf->positionPlatform2 = sfSprite_getPosition(sf->spritePlatform2);
-    sf->positionPlatform3 = sfSprite_getPosition(sf->spritePlatform3);
-    if (sf->playerCondition == DEAD) {
-        sf->speedMoveBackground = 1;
-        sf->speedMoveGround = 2;
-        sf->speedMoveSky = 1;
-        sf->speedEnemy = 2.45;
-        sf->mvmtPlayer.y += 1;
-    }
-    check_position_enemy(sf);
     if (sf->positionPlatform.x < -100) {
         sf->existingPlatform--;
         sf->positionPlatform.x = 1000;
@@ -73,5 +62,37 @@ void check_position_2(struct sfRunner *sf)
         sf->existingPlatform--;
         sf->positionPlatform3.x = 1000;
         sfSprite_setPosition(sf->spritePlatform3, sf->positionPlatform3);
+    }
+}
+
+void check_position_2(struct sfRunner *sf)
+{
+    sf->positionPlatform = sfSprite_getPosition(sf->spritePlatform);
+    sf->positionPlatform2 = sfSprite_getPosition(sf->spritePlatform2);
+    sf->positionPlatform3 = sfSprite_getPosition(sf->spritePlatform3);
+    if (sf->playerCondition == DEAD) {
+        sf->speedMoveBackground = 1;
+        sf->speedMoveGround = 2;
+        sf->speedMoveSky = 1;
+        sf->speedEnemy = 2.45;
+        sf->mvmtPlayer.y += 1;
+    }
+    check_position_enemy(sf);
+    check_position_platform(sf);
+}
+
+void increase_speed(struct sfRunner *sf)
+{
+    static int already_increase = 0;
+
+    if (sf->secondSpawn == 0)
+        already_increase = 0;
+    else if ((sf->secondSpawn / 1000) % 20 == 0 &&
+    already_increase != sf->secondSpawn / 1000) {
+        sf->speedMoveGround += 2;
+        sf->speedMoveBackground++;
+        sf->speedMoveSky++;
+        sf->speedPlayer -= 5;
+        already_increase = sf->secondSpawn / 1000;
     }
 }
