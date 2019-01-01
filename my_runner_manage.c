@@ -47,15 +47,15 @@ void e_equal_1(struct sfRunner *sf)
 
 void manage_spike(struct sfRunner *sf)
 {
-    if (sf->existingSpike > 0 || sf->positionEnemy.x < 1000) {
+    if (sf->existingSpike == 1 || sf->positionEnemy.x < 1000) {
         sf->positionEnemy.x -= sf->speedEnemy;
         sfSprite_setPosition(sf->spriteEnemy, sf->positionEnemy);
     }
-    if (sf->existingSpike > 1 || sf->positionEnemy2.x < 1000) {
+    if (sf->existingSpike == 2 || sf->positionEnemy2.x < 1000) {
         sf->positionEnemy2.x -= sf->speedEnemy;
         sfSprite_setPosition(sf->spriteEnemy2, sf->positionEnemy2);
     }
-    if (sf->existingSpike > 2 || sf->positionEnemy3.x < 1000) {
+    if (sf->existingSpike == 3 || sf->positionEnemy3.x < 1000) {
         sf->positionEnemy3.x -= sf->speedEnemy;
         sfSprite_setPosition(sf->spriteEnemy3, sf->positionEnemy3);
     }
@@ -63,15 +63,15 @@ void manage_spike(struct sfRunner *sf)
 
 void manage_platform(struct sfRunner *sf)
 {
-    if (sf->existingPlatform > 0 || sf->positionPlatform.x < 1000) {
+    if (sf->existingPlatform == 1 || sf->positionPlatform.x < 1000) {
         sf->positionPlatform.x -= sf->speedEnemy;
         sfSprite_setPosition(sf->spritePlatform, sf->positionPlatform);
     }
-    if (sf->existingPlatform > 1 || sf->positionPlatform2.x < 1000) {
+    if (sf->existingPlatform == 2 || sf->positionPlatform2.x < 1000) {
         sf->positionPlatform2.x -= sf->speedEnemy;
         sfSprite_setPosition(sf->spritePlatform2, sf->positionPlatform2);
     }
-    if (sf->existingPlatform > 2 || sf->positionPlatform3.x < 1000) {
+    if (sf->existingPlatform == 3 || sf->positionPlatform3.x < 1000) {
         sf->positionPlatform3.x -= sf->speedEnemy;
         sfSprite_setPosition(sf->spritePlatform3, sf->positionPlatform3);
     }

@@ -14,15 +14,16 @@ void analyse_map_2(struct sfRunner *sf, int i)
         sf->shift = sf->secondSpawn;
         sfClock_restart(sf->clockSpawn);
     } else if (sf->distanceSpawn > sf->mapLine && sf->endless == 0 &&
-    sf->existingPlatform <= 0 && sf->existingSpike <= 0) {
+    sf->existingPlatform <= 0 && sf->existingSpike <= 0 &&
+    sf->positionEnemy.x == 1000 && sf->positionEnemy2.x == 1000 &&
+    sf->positionEnemy3.x == 1000 && sf->positionPlatform.x == 1000 &&
+    sf->positionPlatform2.x == 1000 && sf->positionPlatform3.x == 1000) {
         sf->playerCondition = END;
     }
-    if (sf->map2d[i][sf->distanceSpawn] == sf->charPlatform) {
+    if (sf->map2d[i][sf->distanceSpawn] == sf->charPlatform)
         sf->existingPlatform++;
-    }
-    else if (sf->map2d[i][sf->distanceSpawn] == sf->charSpike) {
+    if (sf->map2d[i][sf->distanceSpawn] == sf->charSpike)
         sf->existingSpike++;
-    }
 }
 
 void analyse_map(struct sfRunner *sf)

@@ -142,6 +142,10 @@ struct sfRunner {
     int maxValueSky;
     int existingSpike;
     int existingPlatform;
+    int totalSpikes;
+    int totalPlatform;
+    int totalCreatedSpikes;
+    int totalCreatedPlatform;
     int pauseTime;
     int endless;
     int nearPlatform;

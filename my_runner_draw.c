@@ -29,6 +29,7 @@ void draw_end(struct sfRunner *sf)
             sf->positionScore.y = 230;
         sfText_setOutlineColor(sf->score, sfColor_fromRGB(209, 209, 208));
         sfText_setPosition(sf->score, sf->positionScore);
+        sf->secondSpawn = 0;
         sfRenderWindow_drawSprite(sf->window, sf->spriteEnd, NULL);
         sfRenderWindow_drawText(sf->window, sf->score, NULL);
         if (sfMusic_getStatus(sf->music) == sfPlaying) {
@@ -46,6 +47,7 @@ void draw_dead(struct sfRunner *sf)
         else
             sf->positionScore.y = 140;
         sfText_setPosition(sf->score, sf->positionScore);
+        sf->secondSpawn = 0;
         sfRenderWindow_drawSprite(sf->window, sf->spriteDead, NULL);
         sfRenderWindow_drawText(sf->window, sf->score, NULL);
         if (sfMusic_getStatus(sf->music) == sfPlaying) {
