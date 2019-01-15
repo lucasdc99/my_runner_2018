@@ -59,21 +59,30 @@ void find_char_for_map(struct sfRunner *sf)
     }
 }
 
+void analyse_buffer(struct sfRunner *sf, char *buffer)
+{
+    if (buffer == NULL) {
+        sf->mapLine = -1;
+        return;
+    }
+    sf->mapLine = my_strlen(buffer);
+    sf->mapLength = 0;
+}
+
 void create_map(struct sfRunner *sf, int fd, char *av)
 {
     char *buffer = get_next_line(fd);
 
-    sf->mapLine = my_strlen(buffer);
-    sf->mapLength = 0;
+    if (sf->mapLine == -1)
+        return;
     find_char_for_map(sf);
     while (buffer != NULL) {
         sf->mapLength++;
         buffer = get_next_line(fd);
     }
     sf->map2d = malloc(sizeof(char *) * sf->mapLength);
-    for (int i = 0; i < sf->mapLength; i++) {
+    for (int i = 0; i < sf->mapLength; i++)
         sf->map2d[i] = malloc(sizeof(char) * sf->mapLine);
-    }
     fd = open(av, O_RDONLY);
     for (int i = 0; i < sf->mapLength; i++) {
         buffer = get_next_line(fd);
