@@ -73,6 +73,7 @@ void create_map(struct sfRunner *sf, int fd, char *av)
 {
     char *buffer = get_next_line(fd);
 
+    analyse_buffer(sf, buffer);
     if (sf->mapLine == -1)
         return;
     find_char_for_map(sf);
