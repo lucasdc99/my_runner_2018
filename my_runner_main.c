@@ -69,7 +69,8 @@ void help(void)
     my_putstr(" In the end or dead menu:\n");
     my_putstr("\tQ_KEY\t\tquit the game.\n");
     my_putstr("\tR_KEY\t\trestart the game.\n");
-    my_putstr("\tE_KEY\t\t???\n");
+    my_putstr(" In main menu:\n");
+    my_putstr("\tE_KEY\t\tchange the skin.\n");
 }
 
 int main(int ac, char **av)
